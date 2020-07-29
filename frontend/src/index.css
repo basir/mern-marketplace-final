@@ -1,0 +1,14 @@
+main {
+  min-height: 80vh;
+}
+/* Rating */
+.rating span {
+  color: #f0c040;
+  margin: 0.1rem;
+}
+.rating span:last-child {
+  color: #444444;
+}
+a > .rating > span:last-child {
+  color: #0000ff;
+}
