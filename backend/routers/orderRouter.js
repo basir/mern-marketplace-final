@@ -9,7 +9,8 @@ orderRouter.get(
   '/',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const orders = await Order.find({}).populate('user');
+    const seller = req.query.seller ? { seller: req.query.seller } : {};
+    const orders = await Order.find({ ...seller }).populate('user');
     res.send(orders);
   })
 );

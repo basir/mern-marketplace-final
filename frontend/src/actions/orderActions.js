@@ -67,13 +67,13 @@ const listMyOrders = () => async (dispatch, getState) => {
   }
 };
 
-const listOrders = () => async (dispatch, getState) => {
+const listOrders = ({ seller = '' }) => async (dispatch, getState) => {
   try {
     dispatch({ type: ORDER_LIST_REQUEST });
     const {
       userSignin: { userInfo },
     } = getState();
-    const { data } = await axios.get('/api/orders', {
+    const { data } = await axios.get(`/api/orders?seller=${seller}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: ORDER_LIST_SUCCESS, payload: data });

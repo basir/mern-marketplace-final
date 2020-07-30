@@ -92,7 +92,8 @@ function App() {
         <main>
           <Container>
             <Route path="/userlist" component={UserListScreen} />
-            <Route path="/orderlist" component={OrderListScreen} />
+            <Route path="/orderlist/seller" component={OrderListScreen} />
+            <Route path="/orderlist" component={OrderListScreen} exact />
             <Route path="/profile" component={ProfileScreen} />
             <Route path="/order/:id" component={OrderScreen} />
             <Route path="/productlist/seller" component={ProductListScreen} />

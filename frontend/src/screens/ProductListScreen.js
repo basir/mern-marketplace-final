@@ -15,9 +15,8 @@ import {
 } from '../constants/productConstants';
 
 function ProductListScreen(props) {
-  const [sellerMode, setSellerMode] = useState(
-    props.match.path.indexOf('/seller') >= 0
-  );
+  const sellerMode = props.match.path.indexOf('/seller') >= 0;
+
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
   const productList = useSelector((state) => state.productList);

@@ -5,7 +5,10 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { listOrders, deleteOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 
-function OrderListScreen() {
+function OrderListScreen(props) {
+  const sellerMode = props.match.path.indexOf('/seller') >= 0;
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
   const orderList = useSelector((state) => state.orderList);
   const { loading, orders } = orderList;
 
@@ -15,7 +18,7 @@ function OrderListScreen() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(listOrders());
+    dispatch(listOrders({ seller: sellerMode ? userInfo._id : '' }));
     return () => {
       //
     };
