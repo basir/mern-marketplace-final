@@ -29,7 +29,11 @@ function RegisterScreen(props) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(register(name, email, password));
+    if (confirmPassword !== password) {
+      alert('Password and confirm password does not match.');
+    } else {
+      dispatch(register(name, email, password));
+    }
   };
   return (
     <div className="py-3">
@@ -40,7 +44,7 @@ function RegisterScreen(props) {
       </div>
 
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="email">
+        <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"

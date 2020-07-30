@@ -15,9 +15,10 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import OrderListScreen from './screens/OrderListScreen';
-
-import { logout } from './actions/userActions';
+import UserListScreen from './screens/UserListScreen';
+import UserEditScreen from './screens/UserEditScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
+import { logout } from './actions/userActions';
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +62,16 @@ function App() {
                     <Nav.Link>Sign In</Nav.Link>
                   </LinkContainer>
                 )}
+                {userInfo && userInfo.isSeller && (
+                  <NavDropdown title="Seller" id="collasible-nav-dropdown">
+                    <LinkContainer to="/orderlist/seller">
+                      <NavDropdown.Item>Orders</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/productlist/seller">
+                      <NavDropdown.Item>Products</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                )}
                 {userInfo && userInfo.isAdmin && (
                   <NavDropdown title="Admin" id="collasible-nav-dropdown">
                     <LinkContainer to="/orderlist">
@@ -68,6 +79,9 @@ function App() {
                     </LinkContainer>
                     <LinkContainer to="/productlist">
                       <NavDropdown.Item>Products</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/userlist">
+                      <NavDropdown.Item>Users</NavDropdown.Item>
                     </LinkContainer>
                   </NavDropdown>
                 )}
@@ -77,16 +91,19 @@ function App() {
         </header>
         <main>
           <Container>
+            <Route path="/userlist" component={UserListScreen} />
             <Route path="/orderlist" component={OrderListScreen} />
             <Route path="/profile" component={ProfileScreen} />
             <Route path="/order/:id" component={OrderScreen} />
-            <Route path="/productlist" component={ProductListScreen} />
+            <Route path="/productlist/seller" component={ProductListScreen} />
+            <Route path="/productlist" component={ProductListScreen} exact />
             <Route path="/shipping" component={ShippingScreen} />
             <Route path="/payment" component={PaymentScreen} />
             <Route path="/placeorder" component={PlaceOrderScreen} />
             <Route path="/signin" component={SigninScreen} />
             <Route path="/register" component={RegisterScreen} />
             <Route path="/product/:id/edit" component={ProductEditScreen} />
+            <Route path="/user/:id/edit" component={UserEditScreen} />
             <Route path="/product/:id" component={ProductScreen} exact />
             <Route path="/cart/:id?" component={CartScreen} />
             <Route path="/category/:id" component={HomeScreen} />

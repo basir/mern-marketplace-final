@@ -20,19 +20,25 @@ import {
   PRODUCT_CREATE_FAIL,
 } from '../constants/productConstants';
 
-const listProducts = (
+const listProducts = ({
   category = '',
   searchKeyword = '',
-  sortOrder = ''
-) => async (dispatch) => {
+  sortOrder = '',
+  seller = '',
+}) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     const { data } = await axios.get(
-      `/api/products?category=${category}&searchKeyword=${searchKeyword}&sortOrder=${sortOrder}`
+      `/api/products?category=${category}&seller=${seller}&searchKeyword=${searchKeyword}&sortOrder=${sortOrder}`
     );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message });
+    dispatch({
+      type: PRODUCT_LIST_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
@@ -53,7 +59,12 @@ const updateProduct = (product) => async (dispatch, getState) => {
     });
     dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: PRODUCT_UPDATE_FAIL, payload: error.message });
+    dispatch({
+      type: PRODUCT_UPDATE_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
@@ -63,7 +74,36 @@ const detailsProduct = (productId) => async (dispatch) => {
     const { data } = await axios.get(`/api/products/${productId}`);
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: PRODUCT_DETAILS_FAIL, payload: error.message });
+    dispatch({
+      type: PRODUCT_DETAILS_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
+  }
+};
+
+const deleteProduct = (productId) => async (dispatch, getState) => {
+  try {
+    const {
+      userSignin: {
+        userInfo: { token },
+      },
+    } = getState();
+    dispatch({ type: PRODUCT_DELETE_REQUEST, payload: productId });
+    const { data } = await axios.delete(`/api/products/${productId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch({ type: PRODUCT_DELETE_SUCCESS, payload: data, success: true });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_DELETE_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
@@ -90,29 +130,14 @@ const createProduct = () => async (dispatch, getState) => {
       success: true,
     });
   } catch (error) {
-    dispatch({ type: PRODUCT_CREATE_FAIL, payload: error.message });
-  }
-};
-
-const deleteProdcut = (productId) => async (dispatch, getState) => {
-  try {
-    const {
-      userSignin: {
-        userInfo: { token },
-      },
-    } = getState();
-    dispatch({ type: PRODUCT_DELETE_REQUEST, payload: productId });
-    const { data } = await axios.delete(`/api/products/${productId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    dispatch({
+      type: PRODUCT_CREATE_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
     });
-    dispatch({ type: PRODUCT_DELETE_SUCCESS, payload: data, success: true });
-  } catch (error) {
-    dispatch({ type: PRODUCT_DELETE_FAIL, payload: error.message });
   }
 };
-
 const updateProductReview = (productId, review) => async (
   dispatch,
   getState
@@ -136,7 +161,12 @@ const updateProductReview = (productId, review) => async (
     dispatch({ type: PRODUCT_REVIEW_SAVE_SUCCESS, payload: data });
   } catch (error) {
     // report error
-    dispatch({ type: PRODUCT_REVIEW_SAVE_FAIL, payload: error.message });
+    dispatch({
+      type: PRODUCT_REVIEW_SAVE_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
@@ -144,7 +174,7 @@ export {
   listProducts,
   detailsProduct,
   updateProduct,
-  deleteProdcut,
+  deleteProduct,
   updateProductReview,
   createProduct,
 };

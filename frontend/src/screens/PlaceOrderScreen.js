@@ -15,19 +15,17 @@ import { createOrder } from '../actions/orderActions';
 import MessageBox from '../components/MessageBox';
 
 function PlaceOrderScreen(props) {
-  const cart = useSelector((state) => state.cart);
   const orderCreate = useSelector((state) => state.orderCreate);
   const { success, order } = orderCreate;
 
+  const cart = useSelector((state) => state.cart);
   const { cartItems, shipping, payment } = cart;
-  if (!shipping.address) {
-    props.history.push('/shipping');
-  } else if (!payment.paymentMethod) {
+  if (!payment.paymentMethod) {
     props.history.push('/payment');
   }
   const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.qty, 0);
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
-  const taxPrice = 0.15 * itemsPrice;
+  const taxPrice = Math.round(0.15 * itemsPrice * 100) / 100;
   const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
   const dispatch = useDispatch();

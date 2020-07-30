@@ -101,43 +101,45 @@ function ProductScreen(props) {
                   <ListGroup.Item>
                     Status:{' '}
                     <strong>
-                      {product.countInStock > 0 ? 'In Stock' : 'Unavailable.'}
+                      {product.countInStock > 0 ? 'In Stock' : 'Unavailable'}
                     </strong>
                   </ListGroup.Item>
-                  <ListGroup.Item>
-                    Qty:
-                    <Form.Control
-                      as="select"
-                      value={qty}
-                      onChange={(e) => {
-                        setQty(e.target.value);
-                      }}
-                    >
-                      {[...Array(product.countInStock).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    {product.countInStock > 0 && (
-                      <Button
-                        className="btn-block"
-                        type="button"
-                        onClick={handleAddToCart}
-                      >
-                        Add to Cart
-                      </Button>
-                    )}
-                  </ListGroup.Item>
+                  {product.countInStock > 0 && (
+                    <>
+                      <ListGroup.Item>
+                        Qty:
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e) => {
+                            setQty(e.target.value);
+                          }}
+                        >
+                          {[...Array(product.countInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <Button
+                          className="btn-block"
+                          type="button"
+                          onClick={handleAddToCart}
+                        >
+                          Add to Cart
+                        </Button>
+                      </ListGroup.Item>
+                    </>
+                  )}
                 </ListGroup>
               </Card>
             </Col>
           </Row>
           <Row>
             <Col md={6}>
-              <h2>Reviews</h2>
+              <h2 id="reviews">Reviews</h2>
               {!product.reviews.length && (
                 <MessageBox>There is no review</MessageBox>
               )}
@@ -161,8 +163,6 @@ function ProductScreen(props) {
                         <Form.Label>Rating</Form.Label>
                         <Form.Control
                           as="select"
-                          name="rating"
-                          id="rating"
                           value={rating}
                           onChange={(e) => setRating(e.target.value)}
                         >
@@ -174,13 +174,11 @@ function ProductScreen(props) {
                         </Form.Control>
                       </Form.Group>
 
-                      <Form.Group controlId="exampleForm.ControlTextarea1">
+                      <Form.Group controlId="comment">
                         <Form.Label>Comment</Form.Label>
                         <Form.Control
                           as="textarea"
                           rows="3"
-                          name="comment"
-                          id="comment"
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
                         />

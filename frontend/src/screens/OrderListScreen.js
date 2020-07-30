@@ -50,8 +50,8 @@ function OrderListScreen() {
               <td>{order.createdAt}</td>
               <td>{order.totalPrice}</td>
               <td>{order.user.name}</td>
-              <td>{order.paidAt || ''}</td>
-              <td>{order.deliveredAt || ''}</td>
+              <td>{order.paidAt || 'No'}</td>
+              <td>{order.deliveredAt || 'No'}</td>
               <td>
                 <LinkContainer to={`/order/${order._id}`}>
                   <Button variant="light" className="btn-sm">

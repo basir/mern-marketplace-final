@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import {
   listProducts,
-  deleteProdcut,
+  deleteProduct,
   createProduct,
 } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
@@ -15,6 +15,11 @@ import {
 } from '../constants/productConstants';
 
 function ProductListScreen(props) {
+  const [sellerMode, setSellerMode] = useState(
+    props.match.path.indexOf('/seller') >= 0
+  );
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
   const productList = useSelector((state) => state.productList);
   const { loading, products, error } = productList;
 
@@ -30,7 +35,7 @@ function ProductListScreen(props) {
       dispatch({ type: PRODUCT_CREATE_RESET });
       props.history.push(`/product/${createdProduct._id}/edit`);
     }
-    dispatch(listProducts());
+    dispatch(listProducts({ seller: sellerMode ? userInfo._id : '' }));
     dispatch({ type: PRODUCT_DETAILS_RESET });
     return () => {
       //
@@ -39,7 +44,7 @@ function ProductListScreen(props) {
 
   const deleteHandler = (product) => {
     if (window.confirm('Are you sure to delete this order?')) {
-      dispatch(deleteProdcut(product._id));
+      dispatch(deleteProduct(product._id));
     }
   };
 
@@ -53,15 +58,15 @@ function ProductListScreen(props) {
 
       {loading && <LoadingBox />}
       {error && <MessageBox variant="danger">{error}</MessageBox>}
-      <Table>
+      <Table striped bordered hover>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th>Brand</th>
-            <th>Action</th>
+            <th>NAME</th>
+            <th>PRICE</th>
+            <th>CATEGORY</th>
+            <th>BRAND</th>
+            <th>ACTIONS</th>
           </tr>
         </thead>
         <tbody>

@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { saveShipping } from '../actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
 
 function ShippingScreen(props) {
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [country, setCountry] = useState('');
+  if (!useSelector((state) => state.userSignin).userInfo) {
+    props.history.push('/signin');
+  }
+
+  const cart = useSelector((state) => state.cart);
+  const { shipping } = cart;
+  const [address, setAddress] = useState(shipping.address);
+  const [city, setCity] = useState(shipping.city);
+  const [postalCode, setPostalCode] = useState(shipping.postalCode);
+  const [country, setCountry] = useState(shipping.country);
 
   const dispatch = useDispatch();
 
@@ -28,6 +35,7 @@ function ShippingScreen(props) {
             type="text"
             required
             placeholder="Enter address"
+            value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
         </Form.Group>
@@ -37,6 +45,7 @@ function ShippingScreen(props) {
             type="text"
             required
             placeholder="Enter city"
+            value={city}
             onChange={(e) => setCity(e.target.value)}
           />
         </Form.Group>
@@ -46,6 +55,7 @@ function ShippingScreen(props) {
             type="text"
             required
             placeholder="Enter postal code"
+            value={postalCode}
             onChange={(e) => setPostalCode(e.target.value)}
           />
         </Form.Group>
@@ -55,6 +65,7 @@ function ShippingScreen(props) {
             type="text"
             required
             placeholder="Enter country"
+            value={country}
             onChange={(e) => setCountry(e.target.value)}
           />
         </Form.Group>

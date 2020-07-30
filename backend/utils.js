@@ -30,7 +30,7 @@ const isAuth = (req, res, next) => {
       }
     });
   } else {
-    res.status(401).send({ message: 'Token is not supplied.' });
+    res.status(401).send({ message: 'No Token' });
   }
 };
 
@@ -38,7 +38,14 @@ const isAdmin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     return next();
   }
-  return res.status(401).send({ message: 'Admin Token is not valid.' });
+  return res.status(401).send({ message: 'Invalid Admin Token' });
 };
 
-export { getToken, isAuth, isAdmin };
+const isSeller = (req, res, next) => {
+  if (req.user && req.user.isSeller) {
+    return next();
+  }
+  return res.status(401).send({ message: 'Invalid Seller Token' });
+};
+
+export { getToken, isAuth, isAdmin, isSeller };

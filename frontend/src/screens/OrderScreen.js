@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PayPalButton } from 'react-paypal-button-v2';
 import { Link } from 'react-router-dom';
 import {
   ListGroup,
@@ -10,8 +11,8 @@ import {
   Image,
   ListGroupItem,
 } from 'react-bootstrap';
+import axios from 'axios';
 import { detailsOrder, payOrder } from '../actions/orderActions';
-import PaypalButton from '../components/PaypalButton';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
 
@@ -25,15 +26,28 @@ function OrderScreen(props) {
   const orderDetails = useSelector((state) => state.orderDetails);
   const { loading, order, error } = orderDetails;
 
+  const [sdkReady, setSdkReady] = useState(false);
+
   const dispatch = useDispatch();
   useEffect(() => {
+    const addPaypalScript = async () => {
+      const { data: clientId } = await axios.get('/api/config/paypal');
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+      script.async = true;
+      script.onload = () => {
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
+    };
     if (successPay) {
       props.history.push('/profile');
-    } else {
+    } else if (order && !order._id) {
       dispatch(detailsOrder(props.match.params.id));
-    }
+    } else if (order && !order.isPaid && !window.paypal) addPaypalScript();
     return () => {};
-  }, [successPay]);
+  }, [order, successPay]);
 
   const handleSuccessPayment = (paymentResult) => {
     dispatch(payOrder(order, paymentResult));
@@ -133,24 +147,27 @@ function OrderScreen(props) {
                   </Col>
                 </Row>
               </ListGroup.Item>
-              <ListGroup.Item>
-                {loadingPay && <div>Finishing Payment...</div>}
-                {!order.isPaid && (
-                  <PaypalButton
-                    amount={order.totalPrice}
-                    onSuccess={handleSuccessPayment}
-                  />
-                )}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <div>Finishing Payment...</div>}
+                  {!order.isPaid && !sdkReady && <div>Loading PayPal...</div>}
+                  {!order.isPaid && sdkReady && (
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={handleSuccessPayment}
+                    />
+                  )}
+                </ListGroup.Item>
+              )}
+              {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                <ListGroup.Item>
                   <li>
                     <Button type="button" className="btn-block">
                       Deliver Order
                     </Button>
                   </li>
-                )}
-              </ListGroup.Item>
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>

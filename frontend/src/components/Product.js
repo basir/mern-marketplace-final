@@ -14,7 +14,7 @@ export default function Product(props) {
         <Link to={`/product/${product._id}`}>
           <Card.Title as="h5">{product.name}</Card.Title>
         </Link>
-        <Card.Text className="muted">
+        <Card.Text as="div">
           <Rating
             value={product.rating}
             text={`${product.numReviews} reviews`}

@@ -30,12 +30,17 @@ const createOrder = (order) => async (dispatch, getState) => {
       data: { data: newOrder },
     } = await axios.post('/api/orders', order, {
       headers: {
-        Authorization: ' Bearer ' + userInfo.token,
+        Authorization: ` Bearer ${userInfo.token}`,
       },
     });
     dispatch({ type: ORDER_CREATE_SUCCESS, payload: newOrder });
   } catch (error) {
-    dispatch({ type: ORDER_CREATE_FAIL, payload: error.message });
+    dispatch({
+      type: ORDER_CREATE_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
@@ -46,11 +51,16 @@ const listMyOrders = () => async (dispatch, getState) => {
       userSignin: { userInfo },
     } = getState();
     const { data } = await axios.get('/api/orders/mine', {
-      headers: { Authorization: 'Bearer ' + userInfo.token },
+      headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: MY_ORDER_LIST_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: MY_ORDER_LIST_FAIL, payload: error.message });
+    dispatch({
+      type: MY_ORDER_LIST_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
@@ -61,11 +71,16 @@ const listOrders = () => async (dispatch, getState) => {
       userSignin: { userInfo },
     } = getState();
     const { data } = await axios.get('/api/orders', {
-      headers: { Authorization: 'Bearer ' + userInfo.token },
+      headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: ORDER_LIST_FAIL, payload: error.message });
+    dispatch({
+      type: ORDER_LIST_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
@@ -75,12 +90,17 @@ const detailsOrder = (orderId) => async (dispatch, getState) => {
     const {
       userSignin: { userInfo },
     } = getState();
-    const { data } = await axios.get('/api/orders/' + orderId, {
-      headers: { Authorization: 'Bearer ' + userInfo.token },
+    const { data } = await axios.get(`/api/orders/${orderId}`, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: ORDER_DETAILS_FAIL, payload: error.message });
+    dispatch({
+      type: ORDER_DETAILS_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
@@ -91,15 +111,20 @@ const payOrder = (order, paymentResult) => async (dispatch, getState) => {
       userSignin: { userInfo },
     } = getState();
     const { data } = await axios.put(
-      '/api/orders/' + order._id + '/pay',
+      `/api/orders/${order._id}/pay`,
       paymentResult,
       {
-        headers: { Authorization: 'Bearer ' + userInfo.token },
+        headers: { Authorization: `Bearer ${userInfo.token}` },
       }
     );
     dispatch({ type: ORDER_PAY_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: ORDER_PAY_FAIL, payload: error.message });
+    dispatch({
+      type: ORDER_PAY_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
@@ -109,12 +134,17 @@ const deleteOrder = (orderId) => async (dispatch, getState) => {
     const {
       userSignin: { userInfo },
     } = getState();
-    const { data } = await axios.delete('/api/orders/' + orderId, {
-      headers: { Authorization: 'Bearer ' + userInfo.token },
+    const { data } = await axios.delete(`/api/orders/${orderId}`, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: ORDER_DELETE_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: ORDER_DELETE_FAIL, payload: error.message });
+    dispatch({
+      type: ORDER_DELETE_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 export {

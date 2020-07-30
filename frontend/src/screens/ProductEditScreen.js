@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Row, Button, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
-import Product from '../components/Product';
 import { updateProduct, detailsProduct } from '../actions/productActions';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
@@ -91,7 +89,7 @@ function ProductEditScreen(props) {
   };
   return (
     <div>
-      <h1>Edit Product {Product._id}</h1>
+      <h1>Edit Product {id}</h1>
       {loadingUpdate && <LoadingBox />}
       {errorUpdate && <MessageBox variant="danger">{errorUpdate}</MessageBox>}
       {loading && <LoadingBox />}
@@ -116,7 +114,7 @@ function ProductEditScreen(props) {
               onChange={(e) => setPrice(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId="price">
+          <Form.Group controlId="image">
             <Form.Label>Image</Form.Label>
             <Form.Control
               type="text"
@@ -158,15 +156,7 @@ function ProductEditScreen(props) {
               onChange={(e) => setCategory(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId="countInStock">
-            <Form.Label>Count In Stock</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter count in stock"
-              value={countInStock}
-              onChange={(e) => setCountInStock(e.target.value)}
-            />
-          </Form.Group>
+
           <Form.Group controlId="description">
             <Form.Label>Description</Form.Label>
             <Form.Control
