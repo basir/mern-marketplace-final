@@ -16,7 +16,7 @@ import MessageBox from '../components/MessageBox';
 
 function PlaceOrderScreen(props) {
   const orderCreate = useSelector((state) => state.orderCreate);
-  const { success, order } = orderCreate;
+  const { success, order, error } = orderCreate;
 
   const cart = useSelector((state) => state.cart);
   const { cartItems, shipping, payment } = cart;
@@ -128,7 +128,11 @@ function PlaceOrderScreen(props) {
                   <Col>${totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-
+              {error && (
+                <ListGroup.Item>
+                  <MessageBox variant="danger">{error}</MessageBox>
+                </ListGroup.Item>
+              )}
               <ListGroup.Item>
                 <Button
                   type="button"

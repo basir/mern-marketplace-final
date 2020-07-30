@@ -19,7 +19,7 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
-  USER_LOGOUT,
+  USER_SIGNOUT,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
@@ -33,7 +33,7 @@ function userSigninReducer(state = {}, action) {
       return { loading: false, userInfo: action.payload };
     case USER_SIGNIN_FAIL:
       return { loading: false, error: action.payload };
-    case USER_LOGOUT:
+    case USER_SIGNOUT:
       return {};
     default:
       return state;

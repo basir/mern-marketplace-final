@@ -6,7 +6,7 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
-  USER_LOGOUT,
+  USER_SIGNOUT,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
@@ -175,14 +175,16 @@ const register = (name, email, password) => async (dispatch) => {
   }
 };
 
-const logout = () => (dispatch) => {
+const signout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
-  dispatch({ type: USER_LOGOUT });
+  localStorage.removeItem('cartItems');
+  localStorage.removeItem('shipping');
+  dispatch({ type: USER_SIGNOUT });
 };
 export {
   signin,
   register,
-  logout,
+  signout,
   updateUserProfile,
   listUsers,
   detailsUser,

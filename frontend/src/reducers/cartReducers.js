@@ -3,6 +3,7 @@ import {
   CART_REMOVE_ITEM,
   CART_SAVE_SHIPPING,
   CART_SAVE_PAYMENT,
+  CART_EMPTY,
 } from '../constants/cartConstants';
 
 function cartReducer(
@@ -30,6 +31,11 @@ function cartReducer(
       return {
         ...state,
         cartItems: state.cartItems.filter((x) => x.product !== action.payload),
+      };
+    case CART_EMPTY:
+      return {
+        ...state,
+        cartItems: [],
       };
     case CART_SAVE_SHIPPING:
       return { ...state, shipping: action.payload };

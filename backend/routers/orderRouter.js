@@ -54,8 +54,22 @@ orderRouter.post(
   '/',
   isAuth,
   expressAsyncHandler(async (req, res) => {
+    if (!req.body.orderItems.length) {
+      res.status(400).send({ message: 'Cart is empty' });
+    }
+    if (
+      !req.body.orderItems
+        .map((item) => item.seller)
+        .every((val) => val === req.body.orderItems[0].seller)
+    ) {
+      res.status(400).send({
+        message: 'Multiple Sellers Error. Buy from one seller in each order.',
+      });
+    }
+    console.log(req.body.orderItems[0]);
     const newOrder = new Order({
       orderItems: req.body.orderItems,
+      seller: req.body.orderItems[0].seller,
       user: req.user._id,
       shipping: req.body.shipping,
       payment: req.body.payment,

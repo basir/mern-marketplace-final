@@ -18,14 +18,14 @@ import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
-import { logout } from './actions/userActions';
+import { signout } from './actions/userActions';
 
 function App() {
   const dispatch = useDispatch();
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleSignout = () => {
+    dispatch(signout());
     document.location.href = '/signin';
   };
   return (
@@ -53,7 +53,7 @@ function App() {
                     <LinkContainer to="/profile">
                       <NavDropdown.Item>Profile</NavDropdown.Item>
                     </LinkContainer>
-                    <NavDropdown.Item onClick={handleLogout}>
+                    <NavDropdown.Item onClick={handleSignout}>
                       Sign Out
                     </NavDropdown.Item>
                   </NavDropdown>
