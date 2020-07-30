@@ -25,8 +25,8 @@ const addToCart = (productId, qty) => async (dispatch, getState) => {
       cart: { cartItems },
     } = getState();
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  } catch (error) {
-    console.log('ADD_TO_CART', error.message);
+  } catch (err) {
+    console.log('ADD_TO_CART', err.message);
   }
 };
 const removeFromCart = (productId) => (dispatch, getState) => {

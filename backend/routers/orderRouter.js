@@ -67,7 +67,6 @@ orderRouter.post(
         message: 'Multiple Sellers Error. Buy from one seller in each order.',
       });
     }
-    console.log(req.body.orderItems[0]);
     const newOrder = new Order({
       orderItems: req.body.orderItems,
       seller: req.body.orderItems[0].seller,
