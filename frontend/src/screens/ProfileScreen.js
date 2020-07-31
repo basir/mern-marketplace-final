@@ -193,7 +193,7 @@ function ProfileScreen(props) {
         ) : errorOrders ? (
           <MessageBox variant="danger">{errorOrders} </MessageBox>
         ) : (
-          <Table striped bordered hover>
+          <Table striped bordered hover responsive>
             <thead>
               <tr>
                 <th>ID</th>

@@ -35,7 +35,7 @@ function UserListScreen() {
 
       {loading && <LoadingBox />}
       {error && <MessageBox variant="danger">{error}</MessageBox>}
-      <Table striped bordered hover>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>ID</th>

@@ -140,9 +140,11 @@ function App() {
           </Container>
         </main>
         <footer>
-          <Row>
-            <Col className="text-center py-3">© 2020 All right reserved.</Col>
-          </Row>
+          <Container>
+            <Row>
+              <Col className="text-center py-3">© 2020 All right reserved.</Col>
+            </Row>
+          </Container>
         </footer>
       </>
     </BrowserRouter>
