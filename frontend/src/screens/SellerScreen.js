@@ -16,7 +16,7 @@ import { PRODUCT_REVIEW_SAVE_RESET } from '../constants/productConstants';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
-function ProductScreen(props) {
+function SellerScreen(props) {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -237,4 +237,4 @@ function ProductScreen(props) {
     </div>
   );
 }
-export default ProductScreen;
+export default SellerScreen;

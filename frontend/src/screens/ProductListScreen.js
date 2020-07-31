@@ -23,7 +23,11 @@ function ProductListScreen(props) {
   const { loading, products, error } = productList;
 
   const productCreate = useSelector((state) => state.productCreate);
-  const { success: successCreate, product: createdProduct } = productCreate;
+  const {
+    success: successCreate,
+    error: errorCreate,
+    product: createdProduct,
+  } = productCreate;
 
   const productDelete = useSelector((state) => state.productDelete);
   const { success: successDelete } = productDelete;
@@ -57,6 +61,7 @@ function ProductListScreen(props) {
 
       {loading && <LoadingBox />}
       {error && <MessageBox variant="danger">{error}</MessageBox>}
+      {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
       <Table striped bordered hover>
         <thead>
           <tr>

@@ -21,13 +21,19 @@ const orderSchema = new mongoose.Schema(
         },
       },
     ],
-    shipping: {
+    shippingAddress: {
       address: { type: String, required: true },
       city: { type: String, required: true },
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
     },
-    payment: { paymentMethod: { type: String, required: true } },
+    paymentMethod: { type: String, required: true },
+    paymentResult: {
+      id: { type: String },
+      status: { type: String },
+      update_time: { type: String },
+      email_address: { type: String },
+    },
 
     itemsPrice: { type: Number },
     taxPrice: { type: Number },
@@ -43,5 +49,5 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-const orderModel = mongoose.model('Order', orderSchema);
-export default orderModel;
+const Order = mongoose.model('Order', orderSchema);
+export default Order;

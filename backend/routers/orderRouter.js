@@ -1,7 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel';
-import { isAuth, isAdmin } from '../utils';
+import { isAuth, isAdmin, isSeller } from '../utils';
 
 const orderRouter = express.Router();
 
@@ -27,7 +27,10 @@ orderRouter.get(
   '/:id',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const order = await Order.findOne({ _id: req.params.id });
+    const order = await Order.findOne({ _id: req.params.id }).populate(
+      'user',
+      'name email'
+    );
     if (order) {
       res.send(order);
     } else {
@@ -39,7 +42,7 @@ orderRouter.get(
 orderRouter.delete(
   '/:id',
   isAuth,
-  isAdmin,
+  isSeller,
   expressAsyncHandler(async (req, res) => {
     const order = await Order.findOne({ _id: req.params.id });
     if (order) {
@@ -64,15 +67,15 @@ orderRouter.post(
         .every((val) => val === req.body.orderItems[0].seller)
     ) {
       res.status(400).send({
-        message: 'Multiple Sellers Error. Buy from one seller in each order.',
+        message: 'Multi Seller Error. Buy from one seller at a time.',
       });
     }
     const newOrder = new Order({
       orderItems: req.body.orderItems,
       seller: req.body.orderItems[0].seller,
       user: req.user._id,
-      shipping: req.body.shipping,
-      payment: req.body.payment,
+      shippingAddress: req.body.shippingAddress,
+      paymentMethod: req.body.paymentMethod,
       itemsPrice: req.body.itemsPrice,
       taxPrice: req.body.taxPrice,
       shippingPrice: req.body.shippingPrice,
@@ -93,13 +96,11 @@ orderRouter.put(
     if (order) {
       order.isPaid = true;
       order.paidAt = Date.now();
-      order.payment = {
-        paymentMethod: 'paypal',
-        paymentResult: {
-          payerID: req.body.payerID,
-          orderID: req.body.orderID,
-          paymentID: req.body.paymentID,
-        },
+      order.paymentResult = {
+        id: req.body.id,
+        status: req.body.status,
+        update_time: req.body.update_time,
+        email_address: req.body.payer.email_address,
       };
       const updatedOrder = await order.save();
       res.send({ message: 'Order Paid.', order: updatedOrder });

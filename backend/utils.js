@@ -8,6 +8,7 @@ const getToken = (user) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      isSeller: user.isSeller,
     },
     config.JWT_SECRET,
     {
@@ -42,6 +43,7 @@ const isAdmin = (req, res, next) => {
 };
 
 const isSeller = (req, res, next) => {
+  console.log(req.user);
   if (req.user && req.user.isSeller) {
     return next();
   }

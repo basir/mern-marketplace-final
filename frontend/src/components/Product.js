@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Rating from './Rating';
 
@@ -20,7 +20,20 @@ export default function Product(props) {
             text={`${product.numReviews} reviews`}
           />
         </Card.Text>
-        <Card.Text className="muted">{product.brand}</Card.Text>
+        <Card.Text className="my-2" as="div">
+          <Row>
+            <Col> {product.brand}</Col>
+            <Col className="text-right">
+              <Link
+                to={`/seller/${product.seller.seller.name
+                  .toLowerCase()
+                  .replace(/ /g, '-')}`}
+              >
+                {product.seller.seller.name}
+              </Link>
+            </Col>
+          </Row>
+        </Card.Text>
         <Card.Text as="h3">${product.price}</Card.Text>
       </Card.Body>
     </Card>

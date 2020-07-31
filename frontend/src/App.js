@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Container, Badge } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
@@ -9,8 +9,8 @@ import CartScreen from './screens/CartScreen';
 import SigninScreen from './screens/SigninScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProductListScreen from './screens/ProductListScreen';
-import ShippingScreen from './screens/ShippingScreen';
-import PaymentScreen from './screens/PaymentScreen';
+import ShippingAddressScreen from './screens/ShippingAddressScreen';
+import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -19,11 +19,14 @@ import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import { signout } from './actions/userActions';
+import SellerScreen from './screens/SellerScreen';
 
 function App() {
   const dispatch = useDispatch();
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
   const handleSignout = () => {
     dispatch(signout());
     document.location.href = '/signin';
@@ -43,7 +46,14 @@ function App() {
             >
               <Nav>
                 <LinkContainer to="/cart">
-                  <Nav.Link>Cart</Nav.Link>
+                  <Nav.Link>
+                    Cart{' '}
+                    {cartItems.length > 0 && (
+                      <Badge pill variant="danger">
+                        {cartItems.length}
+                      </Badge>
+                    )}
+                  </Nav.Link>
                 </LinkContainer>
                 {userInfo ? (
                   <NavDropdown
@@ -98,12 +108,13 @@ function App() {
             <Route path="/order/:id" component={OrderScreen} />
             <Route path="/productlist/seller" component={ProductListScreen} />
             <Route path="/productlist" component={ProductListScreen} exact />
-            <Route path="/shipping" component={ShippingScreen} />
-            <Route path="/payment" component={PaymentScreen} />
+            <Route path="/shipping" component={ShippingAddressScreen} />
+            <Route path="/payment" component={PaymentMethodScreen} />
             <Route path="/placeorder" component={PlaceOrderScreen} />
             <Route path="/signin" component={SigninScreen} />
             <Route path="/register" component={RegisterScreen} />
             <Route path="/product/:id/edit" component={ProductEditScreen} />
+            <Route path="/seller/:id" component={SellerScreen} />
             <Route path="/user/:id/edit" component={UserEditScreen} />
             <Route path="/product/:id" component={ProductScreen} exact />
             <Route path="/cart/:id?" component={CartScreen} />

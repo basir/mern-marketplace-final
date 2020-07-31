@@ -53,8 +53,10 @@ function OrderListScreen(props) {
               <td>{order.createdAt}</td>
               <td>{order.totalPrice}</td>
               <td>{order.user.name}</td>
-              <td>{order.paidAt || 'No'}</td>
-              <td>{order.deliveredAt || 'No'}</td>
+              <td>{order.paidAt ? order.paidAt.substring(0, 10) : 'No'}</td>
+              <td>
+                {order.deliveredAt ? order.deliveredAt.substring(0, 10) : 'No'}
+              </td>
               <td>
                 <LinkContainer to={`/order/${order._id}`}>
                   <Button variant="light" className="btn-sm">

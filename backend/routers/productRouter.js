@@ -27,7 +27,9 @@ productRouter.get(
       ...seller,
       ...category,
       ...searchKeyword,
-    }).sort(sortOrder);
+    })
+      .populate('seller', 'seller.name seller.logo')
+      .sort(sortOrder);
     res.send(products);
   })
 );
@@ -44,7 +46,10 @@ productRouter.get(
 productRouter.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const product = await Product.findOne({ _id: req.params.id });
+    const product = await Product.findOne({ _id: req.params.id }).populate(
+      'seller',
+      '_id seller.name seller.logo seller.rating seller.numReviews'
+    );
     if (product) {
       res.send(product);
     } else {

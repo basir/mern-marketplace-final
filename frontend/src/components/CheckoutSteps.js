@@ -15,7 +15,7 @@ function CheckoutSteps(props) {
         {props.step2 ? (
           <Nav.Link>Shipping</Nav.Link>
         ) : (
-          <Nav.Link disabled>Shipping</Nav.Link>
+          <Nav.Link disabled>Shipping </Nav.Link>
         )}
       </Nav.Item>
       <Nav.Item>

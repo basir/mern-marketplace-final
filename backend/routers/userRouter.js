@@ -2,10 +2,51 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel';
+import Product from '../models/productModel';
 import { getToken, isAuth, isAdmin } from '../utils';
+import data from '../data';
 
 const userRouter = express.Router();
 
+userRouter.get(
+  '/seed',
+  expressAsyncHandler(async (req, res) => {
+    const users = await User.insertMany(data.users);
+    const seller1 = users[0]._id;
+    const seller2 = users[1]._id;
+    const sampleProducts = data.products.map((product, index) =>
+      index < 3
+        ? { ...product, seller: seller1 }
+        : { ...product, seller: seller2 }
+    );
+    const products = await Product.insertMany(sampleProducts);
+    res.send({ users, products });
+    //   , (error, createdProducts) => {
+    //     if (!error) {
+    //       return res
+    //         .status(201)
+    //         .send({ message: 'Products Created', createdProducts });
+    //     }
+    //     return res.status(500).send({ message: error.message });
+    //   });
+    // })
+
+    // try {
+    //   const user = new User({
+    //     name: 'Basir',
+    //     email: 'admin@exmaple.com',
+    //     password: bcrypt.hashSync('1234', 8),
+    //     isAdmin: true,
+    //     isSeller: true,
+    //   });
+    //   const newUser = await user.save();
+    //   res.send(newUser);
+    // } catch (error) {
+    //   res.send({ message: error.message });
+    // }
+    // })
+  })
+);
 userRouter.put(
   '/profile/:id',
   isAuth,
@@ -89,24 +130,6 @@ userRouter.post(
   })
 );
 
-userRouter.get(
-  '/createadmin',
-  expressAsyncHandler(async (req, res) => {
-    try {
-      const user = new User({
-        name: 'Basir',
-        email: 'admin@exmaple.com',
-        password: '1234',
-        isAdmin: true,
-        isSeller: true,
-      });
-      const newUser = await user.save();
-      res.send(newUser);
-    } catch (error) {
-      res.send({ message: error.message });
-    }
-  })
-);
 /* admin */
 
 userRouter.get(

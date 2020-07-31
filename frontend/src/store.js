@@ -28,8 +28,8 @@ import {
   orderDeleteReducer,
 } from './reducers/orderReducers';
 
-const shipping = localStorage.getItem('shipping')
-  ? JSON.parse(localStorage.getItem('shipping'))
+const shippingAddress = localStorage.getItem('shippingAddress')
+  ? JSON.parse(localStorage.getItem('shippingAddress'))
   : {};
 
 const cartItems = localStorage.getItem('cartItems')
@@ -41,7 +41,7 @@ const userInfo = localStorage.getItem('userInfo')
   : null;
 
 const initialState = {
-  cart: { cartItems, shipping, payment: {} },
+  cart: { cartItems, shippingAddress, paymentMethod: 'paypal' },
   userSignin: { userInfo },
 };
 const reducer = combineReducers({

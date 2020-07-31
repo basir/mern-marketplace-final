@@ -80,9 +80,7 @@ const listOrders = ({ seller = '' }) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_LIST_FAIL,
-      payload: error.response.data.message
-        ? error.response.data.message
-        : error.message,
+      payload: error.response ? error.response.data.message : error.message,
     });
   }
 };
@@ -100,9 +98,7 @@ const detailsOrder = (orderId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_DETAILS_FAIL,
-      payload: error.response.data.message
-        ? error.response.data.message
-        : error.message,
+      payload: error.response ? error.response.data.message : error.message,
     });
   }
 };

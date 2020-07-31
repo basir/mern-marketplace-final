@@ -15,6 +15,7 @@ import axios from 'axios';
 import { detailsOrder, payOrder } from '../actions/orderActions';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
+import { ORDER_PAY_RESET } from '../constants/orderConstants';
 
 function OrderScreen(props) {
   const orderPay = useSelector((state) => state.orderPay);
@@ -41,18 +42,26 @@ function OrderScreen(props) {
       };
       document.body.appendChild(script);
     };
-    if (successPay) {
-      props.history.push('/profile');
-    } else if (order && !order._id) {
+    if (
+      order &&
+      (!order._id || order._id !== props.match.params.id || successPay)
+    ) {
+      dispatch({ type: ORDER_PAY_RESET });
       dispatch(detailsOrder(props.match.params.id));
-    } else if (order && !order.isPaid && !window.paypal) addPaypalScript();
+    } else if (order && !order.isPaid) {
+      if (!window.paypal) {
+        addPaypalScript();
+      } else {
+        setSdkReady(true);
+      }
+    }
     return () => {};
   }, [order, successPay]);
 
   const handleSuccessPayment = (paymentResult) => {
+    console.log(paymentResult);
     dispatch(payOrder(order, paymentResult));
   };
-
   return loading ? (
     <LoadingBox />
   ) : error ? (
@@ -64,22 +73,36 @@ function OrderScreen(props) {
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroupItem>
-              <h4>Shipping Address</h4>
+              <h4>Shipping</h4>
               <div>
-                {order.shipping.address}, {order.shipping.city},
-                {order.shipping.postalCode}, {order.shipping.country},
+                <strong>Name:</strong> {order.user.name}{' '}
+                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                <br />
+                <strong>Address:</strong> {order.shippingAddress.address},{' '}
+                {order.shippingAddress.city},{order.shippingAddress.postalCode},{' '}
+                {order.shippingAddress.country},
               </div>
               <div>
-                {order.isDelivered
-                  ? `Delivered at ${order.deliveredAt}`
-                  : 'Not Delivered.'}
+                {order.isDelivered ? (
+                  <MessageBox variant="info">
+                    Paid at {order.deliveredAt}
+                  </MessageBox>
+                ) : (
+                  <MessageBox variant="danger">Not Delivered</MessageBox>
+                )}
               </div>
             </ListGroupItem>
             <ListGroupItem>
-              <h4>Payment Info</h4>
-              <div>Payment Method: {order.payment.paymentMethod}</div>
+              <h4>Payment</h4>
               <div>
-                {order.isPaid ? `Paid at ${order.paidAt}` : 'Not Paid.'}
+                <strong>Method:</strong> {order.paymentMethod}
+              </div>
+              <div>
+                {order.isPaid ? (
+                  <MessageBox variant="info">Paid at {order.paidAt}</MessageBox>
+                ) : (
+                  <MessageBox variant="danger">Not Paid</MessageBox>
+                )}
               </div>
             </ListGroupItem>
             <ListGroupItem>
@@ -104,7 +127,9 @@ function OrderScreen(props) {
                             {item.name}
                           </Link>
                         </Col>
-                        <Col md={1}> ${item.price} </Col>
+                        <Col md={4} className="text-right">
+                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                        </Col>
                       </Row>
                     </ListGroup.Item>
                   ))}

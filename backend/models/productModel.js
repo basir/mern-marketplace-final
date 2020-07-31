@@ -12,7 +12,10 @@ const reviewSchema = new mongoose.Schema(
 );
 const prodctSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    name: {
+      type: String,
+      required: true,
+    },
     image: { type: String, required: true },
     seller: {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,6 +34,6 @@ const prodctSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const productModel = mongoose.model('Product', prodctSchema);
+const Product = mongoose.model('Product', prodctSchema);
 
-export default productModel;
+export default Product;

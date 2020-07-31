@@ -16,7 +16,7 @@ import MessageBox from '../components/MessageBox';
 function CartScreen(props) {
   const cart = useSelector((state) => state.cart);
 
-  const { cartItems } = cart;
+  const { cartItems, error } = cart;
 
   const productId = props.match.params.id;
   const qty = props.location.search
@@ -40,6 +40,8 @@ function CartScreen(props) {
     <Row className="py-3">
       <Col md={8}>
         <h1>Shopping Cart</h1>
+        {error && <MessageBox variant="danger">{error}</MessageBox>}
+
         {cartItems.length === 0 ? (
           <MessageBox>Cart is empty</MessageBox>
         ) : (
@@ -92,7 +94,7 @@ function CartScreen(props) {
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h5>
-                Subtotal ( {cartItems.reduce((a, c) => a + c.qty, 0)} items) : ${' '}
+                Subtotal ({cartItems.reduce((a, c) => a + c.qty, 0)} items) : $
                 {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
               </h5>
             </ListGroup.Item>

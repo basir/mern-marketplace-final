@@ -13,14 +13,15 @@ import {
 import CheckoutSteps from '../components/CheckoutSteps';
 import { createOrder } from '../actions/orderActions';
 import MessageBox from '../components/MessageBox';
+import { ORDER_CREATE_RESET } from '../constants/orderConstants';
 
 function PlaceOrderScreen(props) {
   const orderCreate = useSelector((state) => state.orderCreate);
   const { success, order, error } = orderCreate;
 
   const cart = useSelector((state) => state.cart);
-  const { cartItems, shipping, payment } = cart;
-  if (!payment.paymentMethod) {
+  const { cartItems, shippingAddress, paymentMethod } = cart;
+  if (!paymentMethod) {
     props.history.push('/payment');
   }
   const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.qty, 0);
@@ -35,8 +36,8 @@ function PlaceOrderScreen(props) {
     dispatch(
       createOrder({
         orderItems: cartItems,
-        shipping,
-        payment,
+        shippingAddress,
+        paymentMethod,
         itemsPrice,
         shippingPrice,
         taxPrice,
@@ -47,6 +48,7 @@ function PlaceOrderScreen(props) {
   useEffect(() => {
     if (success) {
       props.history.push(`/order/${order._id}`);
+      dispatch({ type: ORDER_CREATE_RESET });
     }
   }, [success]);
 
@@ -57,16 +59,21 @@ function PlaceOrderScreen(props) {
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroupItem>
-              <h4>Shipping Address</h4>
+              <h4>Shipping </h4>
               <div>
-                {cart.shipping.address}, {cart.shipping.city},
-                {cart.shipping.postalCode}, {cart.shipping.country},
+                <strong>Address: </strong>
+                {cart.shippingAddress.address}, {cart.shippingAddress.city},
+                {cart.shippingAddress.postalCode},{' '}
+                {cart.shippingAddress.country},
               </div>
             </ListGroupItem>
             <ListGroupItem>
-              <h4>Payment Method</h4>
+              <h4>Payment</h4>
               <div>
-                <div>Payment Method: {cart.payment.paymentMethod}</div>
+                <div>
+                  <strong>Method: </strong>
+                  {cart.paymentMethod}
+                </div>
               </div>
             </ListGroupItem>
             <ListGroupItem>
@@ -91,7 +98,9 @@ function PlaceOrderScreen(props) {
                             {item.name}
                           </Link>
                         </Col>
-                        <Col md={1}> ${item.price} </Col>
+                        <Col md={4} className="text-right">
+                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                        </Col>
                       </Row>
                     </ListGroup.Item>
                   ))}
@@ -112,7 +121,7 @@ function PlaceOrderScreen(props) {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Shipping</Col>
+                  <Col>ShippingAddress</Col>
                   <Col>${shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
@@ -124,8 +133,12 @@ function PlaceOrderScreen(props) {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Order Total</Col>
-                  <Col>${totalPrice}</Col>
+                  <Col>
+                    <strong>Order Total</strong>
+                  </Col>
+                  <Col>
+                    <strong>${totalPrice}</strong>
+                  </Col>
                 </Row>
               </ListGroup.Item>
               {error && (
