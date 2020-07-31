@@ -18,6 +18,9 @@ import {
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAIL,
+  ORDER_DELIVER_FAIL,
+  ORDER_DELIVER_SUCCESS,
+  ORDER_DELIVER_REQUEST,
 } from '../constants/orderConstants';
 import { CART_EMPTY } from '../constants/cartConstants';
 
@@ -127,6 +130,30 @@ const payOrder = (order, paymentResult) => async (dispatch, getState) => {
   }
 };
 
+const deliverOrder = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: ORDER_DELIVER_REQUEST, payload: {} });
+    const {
+      userSignin: { userInfo },
+    } = getState();
+    const { data } = await axios.put(
+      `/api/orders/${order._id}/deliver`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      }
+    );
+    dispatch({ type: ORDER_DELIVER_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: ORDER_DELIVER_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
+  }
+};
+
 const deleteOrder = (orderId) => async (dispatch, getState) => {
   try {
     dispatch({ type: ORDER_DELETE_REQUEST, payload: orderId });
@@ -153,4 +180,5 @@ export {
   listMyOrders,
   listOrders,
   deleteOrder,
+  deliverOrder,
 };

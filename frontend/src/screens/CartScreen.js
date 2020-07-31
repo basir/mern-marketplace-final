@@ -37,7 +37,7 @@ function CartScreen(props) {
   };
 
   return (
-    <Row className="py-3">
+    <Row>
       <Col md={8}>
         <h1>Shopping Cart</h1>
         {error && <MessageBox variant="danger">{error}</MessageBox>}
@@ -93,10 +93,10 @@ function CartScreen(props) {
         <Card>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h5>
+              <h2>
                 Subtotal ({cartItems.reduce((a, c) => a + c.qty, 0)} items) : $
                 {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
-              </h5>
+              </h2>
             </ListGroup.Item>
             <ListGroup.Item>
               <Button

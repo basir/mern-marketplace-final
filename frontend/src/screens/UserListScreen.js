@@ -30,7 +30,7 @@ function UserListScreen() {
   };
 
   return (
-    <div>
+    <>
       <h1>Users</h1>
 
       {loading && <LoadingBox />}
@@ -73,7 +73,7 @@ function UserListScreen() {
           ))}
         </tbody>
       </Table>
-    </div>
+    </>
   );
 }
 export default UserListScreen;

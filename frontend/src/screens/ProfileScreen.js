@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Row, Button, Form } from 'react-bootstrap';
+import { Col, Row, Button, Form, Table } from 'react-bootstrap';
 import axios from 'axios';
+import { LinkContainer } from 'react-router-bootstrap';
 import { updateUserProfile, detailsUser } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
 import MessageBox from '../components/MessageBox';
@@ -96,7 +97,7 @@ function ProfileScreen(props) {
       });
   };
   return (
-    <Row className="py-3">
+    <Row>
       <Col md={4}>
         <h2> Profile</h2>
         {loading && <LoadingBox />}
@@ -142,7 +143,7 @@ function ProfileScreen(props) {
           </Form.Group>
           {user.isSeller && (
             <>
-              <h3>Seller</h3>
+              <h2>Seller</h2>
               <Form.Group controlId="sellerName">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
@@ -166,7 +167,7 @@ function ProfileScreen(props) {
                   custom
                   onChange={uploadFileHandler}
                 />
-                {uploading && <div>Uploading...</div>}
+                {uploading && <LoadingBox />}
               </Form.Group>
               <Form.Group controlId="sellerDescription">
                 <Form.Label>Description</Form.Label>
@@ -188,11 +189,11 @@ function ProfileScreen(props) {
       <Col md={8}>
         <h2>Order History</h2>
         {loadingOrders ? (
-          <div>Loading...</div>
+          <LoadingBox />
         ) : errorOrders ? (
-          <div>{errorOrders} </div>
+          <MessageBox variant="danger">{errorOrders} </MessageBox>
         ) : (
-          <table className="table">
+          <Table striped bordered hover>
             <thead>
               <tr>
                 <th>ID</th>
@@ -210,12 +211,14 @@ function ProfileScreen(props) {
                   <td>{order.totalPrice}</td>
                   <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
                   <td>
-                    <Link to={`/order/${order._id}`}>DETAILS</Link>
+                    <LinkContainer to={`/order/${order._id}`}>
+                      <Button variant="light">Details</Button>
+                    </LinkContainer>
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table>
+          </Table>
         )}
       </Col>
     </Row>

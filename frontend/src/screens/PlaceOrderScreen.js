@@ -53,31 +53,29 @@ function PlaceOrderScreen(props) {
   }, [success]);
 
   return (
-    <div>
+    <>
       <CheckoutSteps step1 step2 step3 step4 />
-      <Row className="py-3">
+      <Row>
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroupItem>
-              <h4>Shipping </h4>
-              <div>
+              <h2>Shipping </h2>
+              <p>
                 <strong>Address: </strong>
                 {cart.shippingAddress.address}, {cart.shippingAddress.city},
                 {cart.shippingAddress.postalCode},{' '}
                 {cart.shippingAddress.country},
-              </div>
+              </p>
             </ListGroupItem>
             <ListGroupItem>
-              <h4>Payment</h4>
-              <div>
-                <div>
-                  <strong>Method: </strong>
-                  {cart.paymentMethod}
-                </div>
-              </div>
+              <h2>Payment</h2>
+              <p>
+                <strong>Method: </strong>
+                {cart.paymentMethod}
+              </p>
             </ListGroupItem>
             <ListGroupItem>
-              <h4>Order Items</h4>
+              <h2>Order Items</h2>
               {cartItems.length === 0 ? (
                 <MessageBox>Cart is empty</MessageBox>
               ) : (
@@ -112,7 +110,9 @@ function PlaceOrderScreen(props) {
         <Col md={4}>
           <Card>
             <ListGroup variant="flush">
-              <ListGroup.Item>Order Summary</ListGroup.Item>
+              <ListGroup.Item>
+                <h2>Order Summary</h2>
+              </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
@@ -160,7 +160,7 @@ function PlaceOrderScreen(props) {
           </Card>
         </Col>
       </Row>
-    </div>
+    </>
   );
 }
 

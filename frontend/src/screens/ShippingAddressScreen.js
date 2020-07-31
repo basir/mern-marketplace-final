@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { saveShippingAddress } from '../actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
+import FormContainer from '../components/FormContainer';
 
 function ShippingAddressScreen(props) {
   if (!useSelector((state) => state.userSignin).userInfo) {
@@ -25,7 +26,7 @@ function ShippingAddressScreen(props) {
     props.history.push('payment');
   };
   return (
-    <div>
+    <FormContainer>
       <CheckoutSteps step1 step2 />
       <h1> Shipping Address</h1>
       <Form onSubmit={submitHandler}>
@@ -74,7 +75,7 @@ function ShippingAddressScreen(props) {
           Submit
         </Button>
       </Form>
-    </div>
+    </FormContainer>
   );
 }
 export default ShippingAddressScreen;

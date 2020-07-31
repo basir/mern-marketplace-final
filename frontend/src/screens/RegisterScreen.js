@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Row, Col } from 'react-bootstrap';
 import { register } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import FormContainer from '../components/FormContainer';
 
 function RegisterScreen(props) {
   const [name, setName] = useState('');
@@ -36,12 +37,11 @@ function RegisterScreen(props) {
     }
   };
   return (
-    <div className="py-3">
-      <h1>Register Customer</h1>
-      <div>
-        {loading && <LoadingBox />}
-        {error && <MessageBox variant="danger">{error}</MessageBox>}
-      </div>
+    <FormContainer>
+      <h2>Register</h2>
+
+      {loading && <LoadingBox />}
+      {error && <MessageBox variant="danger">{error}</MessageBox>}
 
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="name">
@@ -84,13 +84,17 @@ function RegisterScreen(props) {
           Submit
         </Button>
       </Form>
-      <div className="py-3">
-        Already have an account?{' '}
-        <Link to={redirect === '/' ? 'signin' : `signin?redirect=${redirect}`}>
-          Sign-In
-        </Link>
-      </div>
-    </div>
+      <Row className="py-3">
+        <Col>
+          Already have an account?{' '}
+          <Link
+            to={redirect === '/' ? 'signin' : `signin?redirect=${redirect}`}
+          >
+            Sign-In
+          </Link>
+        </Col>
+      </Row>
+    </FormContainer>
   );
 }
 export default RegisterScreen;

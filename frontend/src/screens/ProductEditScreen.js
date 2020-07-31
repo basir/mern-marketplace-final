@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Container, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
 import { updateProduct, detailsProduct } from '../actions/productActions';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
+import FormContainer from '../components/FormContainer';
 
 function ProductEditScreen(props) {
   const dispatch = useDispatch();
@@ -88,8 +89,8 @@ function ProductEditScreen(props) {
     );
   };
   return (
-    <div>
-      <h1>Edit Product {id}</h1>
+    <FormContainer>
+      <h2>Edit Product {id}</h2>
       {loadingUpdate && <LoadingBox />}
       {errorUpdate && <MessageBox variant="danger">{errorUpdate}</MessageBox>}
       {loading && <LoadingBox />}
@@ -122,12 +123,14 @@ function ProductEditScreen(props) {
               value={image}
               onChange={(e) => setImage(e.target.value)}
             />
-            <Form.Control
-              type="file"
-              placeholder="Select image"
+            <Form.File
+              id="image-file"
+              label="Choose Image"
+              custom
               onChange={uploadFileHandler}
             />
-            {uploading && <div>Uploading...</div>}
+
+            {uploading && <LoadingBox />}
           </Form.Group>
           <Form.Group controlId="brand">
             <Form.Label>Brand</Form.Label>
@@ -173,7 +176,7 @@ function ProductEditScreen(props) {
           </Button>
         </Form>
       )}
-    </div>
+    </FormContainer>
   );
 }
 

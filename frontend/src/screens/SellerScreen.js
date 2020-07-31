@@ -1,240 +1,89 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Col,
   Row,
   ListGroup,
-  Card,
-  Button,
-  Form,
+  ListGroupItem,
+  Container,
   Image,
 } from 'react-bootstrap';
-import { detailsProduct, updateProductReview } from '../actions/productActions';
-import Rating from '../components/Rating';
-import { PRODUCT_REVIEW_SAVE_RESET } from '../constants/productConstants';
-import LoadingBox from '../components/LoadingBox';
+import { Link } from 'react-router-dom';
+import { detailsUser } from '../actions/userActions';
 import MessageBox from '../components/MessageBox';
+import LoadingBox from '../components/LoadingBox';
+import Product from '../components/Product';
+import { listProducts } from '../actions/productActions';
+import Rating from '../components/Rating';
 
 function SellerScreen(props) {
-  const [qty, setQty] = useState(1);
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
-  const userSignin = useSelector((state) => state.userSignin);
-  const { userInfo } = userSignin;
-  const productDetails = useSelector((state) => state.productDetails);
-  const { product, loading, error } = productDetails;
-  const productReviewSave = useSelector((state) => state.productReviewSave);
-  const { success: productUpdateSuccess } = productReviewSave;
   const dispatch = useDispatch();
 
+  const userDetails = useSelector((state) => state.userDetails);
+  const { loading, user, error } = userDetails;
+  const productList = useSelector((state) => state.productList);
+  const {
+    loading: loadingProducts,
+    products,
+    error: errorProducts,
+  } = productList;
   useEffect(() => {
-    if (productUpdateSuccess) {
-      alert('Review submitted successfully.');
-      setRating(0);
-      setComment('');
-      dispatch({ type: PRODUCT_REVIEW_SAVE_RESET });
-    }
-    dispatch(detailsProduct(props.match.params.id));
-    return () => {
-      //
-    };
-  }, [productUpdateSuccess]);
-  const submitHandler = (e) => {
-    e.preventDefault();
-    // dispatch actions
-    dispatch(
-      updateProductReview(props.match.params.id, {
-        name: userInfo.name,
-        rating,
-        comment,
-      })
-    );
-  };
-  const handleAddToCart = () => {
-    props.history.push(`/cart/${props.match.params.id}?qty=${qty}`);
-  };
+    dispatch(detailsUser(props.match.params.id));
+    dispatch(listProducts({ seller: props.match.params.id }));
+
+    return () => {};
+  }, []);
 
   return (
-    <div>
-      <div className="py-3">
-        <Link to="/">Back to result</Link>
-      </div>
-      {loading ? (
-        <LoadingBox />
-      ) : error ? (
-        <MessageBox variant="danger">{error}</MessageBox>
-      ) : (
-        <>
-          <Row>
-            <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
-            </Col>
-            <Col md={3}>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <h4>{product.name}</h4>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <a href="#reviews">
-                    <Rating
-                      value={product.rating}
-                      text={`${product.numReviews} reviews`}
-                    />
-                  </a>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Price: <b>${product.price}</b>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Description:
-                  <div>{product.description}</div>
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-            <Col md={3}>
-              <Card>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    Seller
-                    <h4>
-                      <Link
-                        to={`/seller/${product.seller.seller.name
-                          .toLowerCase()
-                          .replace(/ /g, '-')}`}
-                      >
-                        {product.seller.seller.name}
-                      </Link>
-                    </h4>
-                    <Rating
-                      value={product.seller.seller.rating}
-                      text={`${product.seller.seller.numReviews} reviews`}
-                    />
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Price</Col>
-                      <Col>
-                        <strong>${product.price}</strong>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Status</Col>
-                      <Col>
-                        <strong>
-                          {product.countInStock > 0
-                            ? 'In Stock'
-                            : 'Unavailable'}
-                        </strong>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-
-                  {product.countInStock > 0 && (
-                    <>
-                      <ListGroup.Item>
-                        <Row>
-                          <Col>Qty</Col>
-                          <Col>
-                            <Form.Control
-                              as="select"
-                              value={qty}
-                              onChange={(e) => {
-                                setQty(e.target.value);
-                              }}
-                            >
-                              {[...Array(product.countInStock).keys()].map(
-                                (x) => (
-                                  <option key={x + 1} value={x + 1}>
-                                    {x + 1}
-                                  </option>
-                                )
-                              )}
-                            </Form.Control>
-                          </Col>
-                        </Row>
-                      </ListGroup.Item>
-
-                      <ListGroup.Item>
-                        <Button
-                          className="btn-block"
-                          type="button"
-                          onClick={handleAddToCart}
-                        >
-                          Add to Cart
-                        </Button>
-                      </ListGroup.Item>
-                    </>
-                  )}
-                </ListGroup>
-              </Card>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={6}>
-              <h2 id="reviews">Reviews</h2>
-              {!product.reviews.length && (
-                <MessageBox>There is no review</MessageBox>
-              )}
-              <ListGroup variant="flush">
-                {product.reviews.map((review) => (
-                  <ListGroup.Item key={review._id}>
-                    <div>{review.name}</div>
-                    <div>
-                      <Rating value={review.rating} />
-                    </div>
-                    <div>{review.createdAt.substring(0, 10)}</div>
-                    <div>{review.comment}</div>
-                  </ListGroup.Item>
-                ))}
-
-                <ListGroup.Item>
-                  <h3>Write a customer review</h3>
-                  {userInfo ? (
-                    <Form onSubmit={submitHandler}>
-                      <Form.Group controlId="rating">
-                        <Form.Label>Rating</Form.Label>
-                        <Form.Control
-                          as="select"
-                          value={rating}
-                          onChange={(e) => setRating(e.target.value)}
-                        >
-                          <option value="1">1- Poor</option>
-                          <option value="2">2- Fair</option>
-                          <option value="3">3- Good</option>
-                          <option value="4">4- Very Good</option>
-                          <option value="5">5- Excelent</option>
-                        </Form.Control>
-                      </Form.Group>
-
-                      <Form.Group controlId="comment">
-                        <Form.Label>Comment</Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          rows="3"
-                          value={comment}
-                          onChange={(e) => setComment(e.target.value)}
-                        />
-                      </Form.Group>
-                      <Button variant="primary" type="submit">
-                        Submit
-                      </Button>
-                    </Form>
-                  ) : (
-                    <MessageBox>
-                      Please <Link to="/signin">Sign-in</Link> to write a
-                      review.
-                    </MessageBox>
-                  )}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-          </Row>
-        </>
-      )}
-    </div>
+    <Row>
+      <Col md={4}>
+        {loading ? (
+          <LoadingBox />
+        ) : error ? (
+          <MessageBox variant="danger">{error}</MessageBox>
+        ) : (
+          <ListGroup>
+            <ListGroupItem>
+              <Image src={user.seller.logo} fluid />
+            </ListGroupItem>
+            <ListGroupItem>
+              <h2>{user.seller.name}</h2>
+            </ListGroupItem>
+            <ListGroupItem>
+              <Rating
+                value={user.seller.rating}
+                text={`${user.seller.numReviews} reviews`}
+              />
+            </ListGroupItem>
+            <ListGroupItem>
+              <a href={`mailto:${user.email}`}>Contact Seller</a>
+            </ListGroupItem>
+            <ListGroupItem>{user.seller.description}</ListGroupItem>
+          </ListGroup>
+        )}
+      </Col>
+      <Col md={8}>
+        {loadingProducts ? (
+          <LoadingBox />
+        ) : errorProducts ? (
+          <MessageBox>{errorProducts}</MessageBox>
+        ) : (
+          <Container fluid>
+            {products.length === 0 && (
+              <MessageBox>No Product Found.</MessageBox>
+            )}
+            <Row>
+              {products.map((product) => (
+                <Col key={product._id} xs={12} md={6} className="py32">
+                  <Product product={product} />
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        )}
+      </Col>
+    </Row>
   );
 }
+
 export default SellerScreen;

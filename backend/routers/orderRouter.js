@@ -8,9 +8,12 @@ const orderRouter = express.Router();
 orderRouter.get(
   '/',
   isAuth,
+  isSeller,
   expressAsyncHandler(async (req, res) => {
     const seller = req.query.seller ? { seller: req.query.seller } : {};
-    const orders = await Order.find({ ...seller }).populate('user');
+    const orders = await Order.find({ ...seller })
+      .populate('user', 'name')
+      .populate('seller', 'name');
     res.send(orders);
   })
 );
@@ -104,6 +107,23 @@ orderRouter.put(
       };
       const updatedOrder = await order.save();
       res.send({ message: 'Order Paid.', order: updatedOrder });
+    } else {
+      res.status(404).send({ message: 'Order not found.' });
+    }
+  })
+);
+
+orderRouter.put(
+  '/:id/deliver',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+
+      const updatedOrder = await order.save();
+      res.send({ message: 'Order Delivered.', order: updatedOrder });
     } else {
       res.status(404).send({ message: 'Order not found.' });
     }

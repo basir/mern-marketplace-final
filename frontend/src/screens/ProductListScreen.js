@@ -55,7 +55,7 @@ function ProductListScreen(props) {
     dispatch(createProduct());
   };
   return (
-    <div>
+    <>
       <h1>Products</h1>
       <Button onClick={createHandler}>Create Product</Button>
 
@@ -100,7 +100,7 @@ function ProductListScreen(props) {
           ))}
         </tbody>
       </Table>
-    </div>
+    </>
   );
 }
 export default ProductListScreen;

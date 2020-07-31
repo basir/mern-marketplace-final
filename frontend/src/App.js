@@ -1,7 +1,18 @@
-import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter, Route, useHistory } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, NavDropdown, Container, Badge } from 'react-bootstrap';
+import {
+  Navbar,
+  Nav,
+  NavDropdown,
+  Container,
+  Badge,
+  Row,
+  Col,
+  Form,
+  FormControl,
+  Button,
+} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
@@ -20,6 +31,7 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import { signout } from './actions/userActions';
 import SellerScreen from './screens/SellerScreen';
+import SearchBox from './components/SearchBox';
 
 function App() {
   const dispatch = useDispatch();
@@ -31,9 +43,10 @@ function App() {
     dispatch(signout());
     document.location.href = '/signin';
   };
+
   return (
     <BrowserRouter>
-      <div>
+      <>
         <header>
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <LinkContainer to="/">
@@ -42,8 +55,11 @@ function App() {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse
               id="responsive-navbar-nav"
-              className="justify-content-end"
+              className="justify-content-between"
             >
+              <Route
+                render={({ history }) => <SearchBox history={history} />}
+              />
               <Nav>
                 <LinkContainer to="/cart">
                   <Nav.Link>
@@ -100,7 +116,7 @@ function App() {
           </Navbar>
         </header>
         <main>
-          <Container>
+          <Container className="py-3">
             <Route path="/userlist" component={UserListScreen} />
             <Route path="/orderlist/seller" component={OrderListScreen} />
             <Route path="/orderlist" component={OrderListScreen} exact />
@@ -119,13 +135,16 @@ function App() {
             <Route path="/product/:id" component={ProductScreen} exact />
             <Route path="/cart/:id?" component={CartScreen} />
             <Route path="/category/:id" component={HomeScreen} />
+            <Route path="/search/:search" component={HomeScreen} />
             <Route path="/" exact component={HomeScreen} />
           </Container>
         </main>
         <footer>
-          <div className="text-center py-3">© 2020 All right reserved.</div>
+          <Row>
+            <Col className="text-center py-3">© 2020 All right reserved.</Col>
+          </Row>
         </footer>
-      </div>
+      </>
     </BrowserRouter>
   );
 }

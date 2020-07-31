@@ -26,6 +26,7 @@ import {
   myOrderListReducer,
   orderListReducer,
   orderDeleteReducer,
+  orderDeliverReducer,
 } from './reducers/orderReducers';
 
 const shippingAddress = localStorage.getItem('shippingAddress')
@@ -47,6 +48,7 @@ const initialState = {
 const reducer = combineReducers({
   cart: cartReducer,
   userList: userListReducer,
+  orderDeliver: orderDeliverReducer,
   userDetails: userDetailsReducer,
   userUpdate: userUpdateReducer,
   userDelete: userDeleteReducer,

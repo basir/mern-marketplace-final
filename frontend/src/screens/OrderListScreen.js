@@ -32,7 +32,7 @@ function OrderListScreen(props) {
   return loading ? (
     <LoadingBox />
   ) : (
-    <div className="py-3">
+    <>
       <h1>Orders</h1>
       <Table striped bordered hover>
         <thead>
@@ -41,6 +41,7 @@ function OrderListScreen(props) {
             <th>DATE</th>
             <th>TOTAL</th>
             <th>USER</th>
+            <th>SELLER</th>
             <th>PAID</th>
             <th>DELIVERED</th>
             <th>ACTIONS</th>
@@ -53,6 +54,7 @@ function OrderListScreen(props) {
               <td>{order.createdAt}</td>
               <td>{order.totalPrice}</td>
               <td>{order.user.name}</td>
+              <td>{order.seller.name}</td>
               <td>{order.paidAt ? order.paidAt.substring(0, 10) : 'No'}</td>
               <td>
                 {order.deliveredAt ? order.deliveredAt.substring(0, 10) : 'No'}
@@ -76,7 +78,7 @@ function OrderListScreen(props) {
           ))}
         </tbody>
       </Table>
-    </div>
+    </>
   );
 }
 export default OrderListScreen;

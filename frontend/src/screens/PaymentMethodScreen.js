@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, Col } from 'react-bootstrap';
 import { savePaymentMethod } from '../actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
+import FormContainer from '../components/FormContainer';
 
 function PaymentMethodScreen(props) {
   const cart = useSelector((state) => state.cart);
@@ -21,7 +22,7 @@ function PaymentMethodScreen(props) {
     props.history.push('placeorder');
   };
   return (
-    <div>
+    <FormContainer>
       <CheckoutSteps step1 step2 step3 />
       <h1> Payment Method</h1>
       <Form onSubmit={submitHandler}>
@@ -54,7 +55,7 @@ function PaymentMethodScreen(props) {
           Submit
         </Button>
       </Form>
-    </div>
+    </FormContainer>
   );
 }
 export default PaymentMethodScreen;

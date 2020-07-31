@@ -56,10 +56,9 @@ function ProductScreen(props) {
   };
 
   return (
-    <div>
-      <div className="py-3">
-        <Link to="/">Back to result</Link>
-      </div>
+    <>
+      <Link to="/">Back to result</Link>
+
       {loading ? (
         <LoadingBox />
       ) : error ? (
@@ -73,7 +72,7 @@ function ProductScreen(props) {
             <Col md={3}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  <h4>{product.name}</h4>
+                  <h2>{product.name}</h2>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <a href="#reviews">
@@ -88,7 +87,7 @@ function ProductScreen(props) {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   Description:
-                  <div>{product.description}</div>
+                  <p>{product.description}</p>
                 </ListGroup.Item>
               </ListGroup>
             </Col>
@@ -97,15 +96,11 @@ function ProductScreen(props) {
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     Seller
-                    <h4>
-                      <Link
-                        to={`/seller/${product.seller.seller.name
-                          .toLowerCase()
-                          .replace(/ /g, '-')}`}
-                      >
+                    <h2>
+                      <Link to={`/seller/${product.seller._id}`}>
                         {product.seller.seller.name}
                       </Link>
-                    </h4>
+                    </h2>
                     <Rating
                       value={product.seller.seller.rating}
                       text={`${product.seller.seller.numReviews} reviews`}
@@ -181,17 +176,17 @@ function ProductScreen(props) {
               <ListGroup variant="flush">
                 {product.reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
-                    <div>{review.name}</div>
-                    <div>
-                      <Rating value={review.rating} />
-                    </div>
-                    <div>{review.createdAt.substring(0, 10)}</div>
-                    <div>{review.comment}</div>
+                    <strong>{review.name}</strong>
+
+                    <Rating value={review.rating} />
+
+                    <p>{review.createdAt.substring(0, 10)}</p>
+                    <p>{review.comment}</p>
                   </ListGroup.Item>
                 ))}
 
                 <ListGroup.Item>
-                  <h3>Write a customer review</h3>
+                  <h2>Write a customer review</h2>
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>
                       <Form.Group controlId="rating">
@@ -234,7 +229,7 @@ function ProductScreen(props) {
           </Row>
         </>
       )}
-    </div>
+    </>
   );
 }
 export default ProductScreen;

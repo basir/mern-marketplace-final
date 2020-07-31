@@ -79,7 +79,10 @@ function userListReducer(state = { users: [] }, action) {
   }
 }
 
-function userDetailsReducer(state = { user: { reviews: [] } }, action) {
+function userDetailsReducer(
+  state = { user: { reviews: [] }, loading: true },
+  action
+) {
   switch (action.type) {
     case USER_DETAILS_REQUEST:
       return { ...state, loading: true };

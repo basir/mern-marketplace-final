@@ -19,6 +19,10 @@ import {
   ORDER_DELETE_FAIL,
   ORDER_CREATE_RESET,
   ORDER_PAY_RESET,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_SUCCESS,
+  ORDER_DELIVER_FAIL,
+  ORDER_DELIVER_RESET,
 } from '../constants/orderConstants';
 
 function orderCreateReducer(state = {}, action) {
@@ -120,6 +124,36 @@ function orderPayReducer(
   }
 }
 
+function orderDeliverReducer(
+  state = {
+    order: {
+      orderItems: [],
+      shippingAddress: {},
+      paymentMethod: {},
+    },
+  },
+  action
+) {
+  switch (action.type) {
+    case ORDER_DELIVER_REQUEST:
+      return { loading: true };
+    case ORDER_DELIVER_SUCCESS:
+      return { loading: false, success: true };
+    case ORDER_DELIVER_FAIL:
+      return { loading: false, error: action.payload };
+    case ORDER_DELIVER_RESET:
+      return {
+        order: {
+          orderItems: [],
+          shippingAddress: {},
+          paymentMethod: {},
+        },
+      };
+    default:
+      return state;
+  }
+}
+
 function orderDeleteReducer(
   state = {
     order: {
@@ -143,6 +177,7 @@ function orderDeleteReducer(
 }
 export {
   orderCreateReducer,
+  orderDeliverReducer,
   orderDetailsReducer,
   orderPayReducer,
   myOrderListReducer,

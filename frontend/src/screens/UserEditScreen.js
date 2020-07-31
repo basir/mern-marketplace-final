@@ -58,7 +58,7 @@ function UserEditScreen(props) {
     );
   };
   return (
-    <div>
+    <>
       <h1>Edit User {name}</h1>
       {loadingUpdate && <LoadingBox />}
       {errorUpdate && <MessageBox variant="danger">{errorUpdate}</MessageBox>}
@@ -106,7 +106,7 @@ function UserEditScreen(props) {
           </Button>
         </Form>
       )}
-    </div>
+    </>
   );
 }
 
