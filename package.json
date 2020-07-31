@@ -31,7 +31,7 @@
   },
   "scripts": {
     "start": "nodemon --watch backend --exec babel-node backend/server.js",
-    "build": "rm -rf build && babel backend -d dist",
+    "build": "rm -rf dest && babel backend -d dest",
     "heroku-postbuild": "npm run build && cd frontend && npm install && npm run build"
   },
   "repository": {
