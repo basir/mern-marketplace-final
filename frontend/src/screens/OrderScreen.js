@@ -96,10 +96,10 @@ function OrderScreen(props) {
               </p>
               {order.isDelivered ? (
                 <MessageBox variant="success">
-                  Paid at {order.deliveredAt}
+                  Delivered at {order.deliveredAt}
                 </MessageBox>
               ) : (
-                <MessageBox variant="danger">Not Paid</MessageBox>
+                <MessageBox variant="danger">Not Delivered</MessageBox>
               )}
             </ListGroupItem>
             <ListGroupItem>
@@ -109,10 +109,10 @@ function OrderScreen(props) {
               </p>
               {order.isPaid ? (
                 <MessageBox variant="success">
-                  Delivered at {order.paidAt}
+                  Paid at {order.paidAt}
                 </MessageBox>
               ) : (
-                <MessageBox variant="danger">Not Delivered</MessageBox>
+                <MessageBox variant="danger">Not Paid</MessageBox>
               )}
             </ListGroupItem>
             <ListGroupItem>
