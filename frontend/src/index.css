@@ -1,6 +1,36 @@
 main {
   min-height: 80vh;
 }
+/* Common */
+h1 {
+  font-size: 1.8rem;
+  padding: 1rem 0;
+}
+
+h2 {
+  font-size: 1.4rem;
+  padding: 0.5rem 0;
+}
+/* Carousel */
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+  display: flex;
+}
+.carousel-caption {
+  background-color: rgb(12, 12, 12, 0.5);
+}
+.carousel img {
+  height: 400px;
+  padding: 30px;
+}
+.carousel a {
+  margin: 0 auto;
+}
+.home-heading {
+  text-align: center;
+  padding-top: 20px;
+}
 /* Rating */
 .rating span {
   color: #f0c040;
@@ -11,13 +41,4 @@ main {
 }
 a > .rating > span:last-child {
   color: #0000ff;
-}
-h1 {
-  font-size: 1.8rem;
-  padding: 1rem 0;
-}
-
-h2 {
-  font-size: 1.4rem;
-  padding: 0.5rem 0;
 }

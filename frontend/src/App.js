@@ -116,7 +116,7 @@ function App() {
           </Navbar>
         </header>
         <main>
-          <Container className="py-3">
+          <Container fluid className="py-3">
             <Route path="/userlist" component={UserListScreen} />
             <Route path="/orderlist/seller" component={OrderListScreen} />
             <Route path="/orderlist" component={OrderListScreen} exact />

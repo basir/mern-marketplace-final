@@ -23,6 +23,9 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
+  USER_TOPSELLERS_LIST_REQUEST,
+  USER_TOPSELLERS_LIST_SUCCESS,
+  USER_TOPSELLERS_LIST_FAIL,
 } from '../constants/userConstants';
 
 function userSigninReducer(state = {}, action) {
@@ -97,6 +100,20 @@ function userDetailsReducer(
   }
 }
 
+function userTopSellersReducer(state = { sellers: [], loading: true }, action) {
+  switch (action.type) {
+    case USER_TOPSELLERS_LIST_REQUEST:
+      return { ...state, loading: true };
+    case USER_TOPSELLERS_LIST_SUCCESS:
+      return { loading: false, sellers: action.payload };
+    case USER_TOPSELLERS_LIST_FAIL:
+      return { ...state, loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+}
+
 function userDeleteReducer(state = { user: {} }, action) {
   switch (action.type) {
     case USER_DELETE_REQUEST:
@@ -133,4 +150,5 @@ export {
   userUpdateReducer,
   userDeleteReducer,
   userDetailsReducer,
+  userTopSellersReducer,
 };

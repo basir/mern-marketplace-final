@@ -22,6 +22,9 @@ import {
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
+  USER_TOPSELLERS_LIST_FAIL,
+  USER_TOPSELLERS_LIST_REQUEST,
+  USER_TOPSELLERS_LIST_SUCCESS,
 } from '../constants/userConstants';
 
 const listUsers = (category = '', searchKeyword = '', sortOrder = '') => async (
@@ -80,6 +83,19 @@ const detailsUser = (userId) => async (dispatch) => {
       payload: error.response.data.message
         ? error.response.data.message
         : error.message,
+    });
+  }
+};
+
+const listTopSellers = () => async (dispatch) => {
+  try {
+    dispatch({ type: USER_TOPSELLERS_LIST_REQUEST });
+    const { data } = await axios.get('/api/users/top-sellers');
+    dispatch({ type: USER_TOPSELLERS_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_TOPSELLERS_LIST_FAIL,
+      payload: error.response ? error.response.data.message : error.message,
     });
   }
 };
@@ -190,4 +206,5 @@ export {
   detailsUser,
   updateUser,
   deleteUser,
+  listTopSellers,
 };

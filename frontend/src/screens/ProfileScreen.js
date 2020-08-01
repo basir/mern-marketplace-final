@@ -5,7 +5,7 @@ import { Col, Row, Button, Form, Table } from 'react-bootstrap';
 import axios from 'axios';
 import { LinkContainer } from 'react-router-bootstrap';
 import { updateUserProfile, detailsUser } from '../actions/userActions';
-import { listMyOrders } from '../actions/orderActions';
+import { listOrderMine } from '../actions/orderActions';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
 
@@ -58,8 +58,8 @@ function ProfileScreen(props) {
     error: errorUpdateProfile,
   } = userUpdateProfile;
 
-  const myOrderList = useSelector((state) => state.myOrderList);
-  const { loading: loadingOrders, orders, error: errorOrders } = myOrderList;
+  const orderMineList = useSelector((state) => state.orderMineList);
+  const { loading: loadingOrders, orders, error: errorOrders } = orderMineList;
   useEffect(() => {
     if (success) {
       return () => {};
@@ -73,7 +73,7 @@ function ProfileScreen(props) {
       setSellerLogo(user.seller ? user.seller.logo : '');
       setSellerDescription(user.seller ? user.seller.description : '');
     }
-    dispatch(listMyOrders());
+    dispatch(listOrderMine());
     return () => {};
   }, [user, success]);
   const uploadFileHandler = (e) => {

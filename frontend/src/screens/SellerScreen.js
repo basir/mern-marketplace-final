@@ -36,18 +36,22 @@ function SellerScreen(props) {
 
   return (
     <Row>
-      <Col md={4}>
+      <Col lg={3}>
         {loading ? (
           <LoadingBox />
         ) : error ? (
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
-          <ListGroup>
+          <ListGroup variant="flush">
             <ListGroupItem>
-              <Image src={user.seller.logo} fluid />
-            </ListGroupItem>
-            <ListGroupItem>
-              <h2>{user.seller.name}</h2>
+              <Row className="align-items-center">
+                <Col>
+                  <Image src={user.seller.logo} fluid />
+                </Col>
+                <Col>
+                  <h1>{user.seller.name}</h1>
+                </Col>
+              </Row>
             </ListGroupItem>
             <ListGroupItem>
               <Rating
@@ -62,24 +66,24 @@ function SellerScreen(props) {
           </ListGroup>
         )}
       </Col>
-      <Col md={8}>
+      <Col lg={9}>
         {loadingProducts ? (
           <LoadingBox />
         ) : errorProducts ? (
           <MessageBox>{errorProducts}</MessageBox>
         ) : (
-          <Container fluid>
+          <>
             {products.length === 0 && (
               <MessageBox>No Product Found.</MessageBox>
             )}
             <Row>
               {products.map((product) => (
-                <Col key={product._id} xs={12} md={6} className="py32">
+                <Col key={product._id} sm={12} md={6} lg={4}>
                   <Product product={product} />
                 </Col>
               ))}
             </Row>
-          </Container>
+          </>
         )}
       </Col>
     </Row>

@@ -6,13 +6,13 @@ import Rating from './Rating';
 export default function Product(props) {
   const { product } = props;
   return (
-    <Card>
+    <Card className="my-3">
       <Link to={`/product/${product._id}`}>
         <Card.Img variant="top" src={product.image} />
       </Link>
       <Card.Body>
         <Link to={`/product/${product._id}`}>
-          <Card.Title as="h2">{product.name}</Card.Title>
+          <Card.Title as="strong">{product.name}</Card.Title>
         </Link>
         <Card.Text as="div">
           <Rating
@@ -20,7 +20,7 @@ export default function Product(props) {
             text={`${product.numReviews} reviews`}
           />
         </Card.Text>
-        <Card.Text className="py-3" as="div">
+        <Card.Text as="div">
           <Row>
             <Col> {product.brand}</Col>
             <Col className="text-right">

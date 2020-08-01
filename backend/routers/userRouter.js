@@ -21,32 +21,19 @@ userRouter.get(
     );
     const products = await Product.insertMany(sampleProducts);
     res.send({ users, products });
-    //   , (error, createdProducts) => {
-    //     if (!error) {
-    //       return res
-    //         .status(201)
-    //         .send({ message: 'Products Created', createdProducts });
-    //     }
-    //     return res.status(500).send({ message: error.message });
-    //   });
-    // })
-
-    // try {
-    //   const user = new User({
-    //     name: 'Basir',
-    //     email: 'admin@exmaple.com',
-    //     password: bcrypt.hashSync('1234', 8),
-    //     isAdmin: true,
-    //     isSeller: true,
-    //   });
-    //   const newUser = await user.save();
-    //   res.send(newUser);
-    // } catch (error) {
-    //   res.send({ message: error.message });
-    // }
-    // })
   })
 );
+
+userRouter.get(
+  '/top-sellers',
+  expressAsyncHandler(async (req, res) => {
+    const topSellers = await User.find({ isSeller: true })
+      .sort({ 'seller.rating': -1 })
+      .limit(3);
+    res.send(topSellers);
+  })
+);
+
 userRouter.put(
   '/profile/:id',
   isAuth,
