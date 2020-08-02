@@ -17,11 +17,7 @@ function HomeScreen(props) {
   const productList = useSelector((state) => state.productList);
   const { products, loading, error } = productList;
   const userTopSellers = useSelector((state) => state.userTopSellers);
-  const {
-    sellers,
-    loading: loadingSellers,
-    error: errorSellers,
-  } = userTopSellers;
+  const { sellers, loading: loadingSellers } = userTopSellers;
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(listProducts({ category, searchKeyword }));

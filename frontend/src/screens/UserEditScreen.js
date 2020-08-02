@@ -4,6 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
 import { updateUser, detailsUser } from '../actions/userActions';
+import FormContainer from '../components/FormContainer';
 import { USER_UPDATE_RESET } from '../constants/userConstants';
 
 function UserEditScreen(props) {
@@ -19,7 +20,6 @@ function UserEditScreen(props) {
     error: errorUpdate,
     loading: loadingUpdate,
     success: successUpdate,
-    user: updatedUser,
   } = userUpdate;
 
   const userDetails = useSelector((state) => state.userDetails);
@@ -58,7 +58,7 @@ function UserEditScreen(props) {
     );
   };
   return (
-    <>
+    <FormContainer>
       <h1>Edit User {name}</h1>
       {loadingUpdate && <LoadingBox />}
       {errorUpdate && <MessageBox variant="danger">{errorUpdate}</MessageBox>}
@@ -106,7 +106,7 @@ function UserEditScreen(props) {
           </Button>
         </Form>
       )}
-    </>
+    </FormContainer>
   );
 }
 

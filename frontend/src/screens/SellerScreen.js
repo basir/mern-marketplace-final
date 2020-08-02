@@ -1,14 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Col,
-  Row,
-  ListGroup,
-  ListGroupItem,
-  Container,
-  Image,
-} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Col, Row, ListGroup, ListGroupItem, Image } from 'react-bootstrap';
 import { detailsUser } from '../actions/userActions';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';

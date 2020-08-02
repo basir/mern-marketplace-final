@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row, Button, Form, Table } from 'react-bootstrap';
 import axios from 'axios';
@@ -52,11 +51,7 @@ function ProfileScreen(props) {
     }
   };
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  const {
-    loading: loadingUpdateProfile,
-    success,
-    error: errorUpdateProfile,
-  } = userUpdateProfile;
+  const { success } = userUpdateProfile;
 
   const orderMineList = useSelector((state) => state.orderMineList);
   const { loading: loadingOrders, orders, error: errorOrders } = orderMineList;

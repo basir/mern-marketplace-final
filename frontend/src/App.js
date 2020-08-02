@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Route, useHistory } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import {
   Navbar,
@@ -9,9 +9,6 @@ import {
   Badge,
   Row,
   Col,
-  Form,
-  FormControl,
-  Button,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import HomeScreen from './screens/HomeScreen';
