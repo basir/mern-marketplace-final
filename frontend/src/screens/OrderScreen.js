@@ -194,7 +194,7 @@ function OrderScreen(props) {
                   )}
                 </ListGroup.Item>
               )}
-              {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+              {userInfo.isSeller && order.isPaid && !order.isDelivered && (
                 <ListGroup.Item>
                   <Button
                     onClick={handleDeliver}

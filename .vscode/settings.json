@@ -1,0 +1,7 @@
+{
+  "eslint.enable": true,
+  "editor.lineNumbers": "off",
+  "editor.glyphMargin": false,
+  "editor.folding": false,
+  "editor.wordWrap": "bounded"
+}
