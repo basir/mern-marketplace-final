@@ -32,6 +32,7 @@
   },
   "scripts": {
     "start": "nodemon --watch backend --exec  node backend/server.js",
+    "serve": "node --experimental-modules  backend/server.js",
     "build": "rm -rf dest && babel backend -d dest",
     "heroku-postbuild": "cd frontend && npm install && npm run build"
   },
