@@ -20,5 +20,6 @@ module.exports = {
     'react/prop-types': 0,
     'react/destructuring-assignment': 0,
     'no-underscore-dangle': 0,
+    'import/extensions': 0,
   },
 };

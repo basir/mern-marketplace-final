@@ -1,10 +1,10 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import expressAsyncHandler from 'express-async-handler';
-import User from '../models/userModel';
-import Product from '../models/productModel';
-import { getToken, isAuth, isAdmin } from '../utils';
-import data from '../data';
+import User from '../models/userModel.js';
+import Product from '../models/productModel.js';
+import { getToken, isAuth, isAdmin } from '../utils.js';
+import data from '../data.js';
 
 const userRouter = express.Router();
 

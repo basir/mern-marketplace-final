@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Demo : https://mernmarketplace.herokuapp.com/",
   "main": "index.js",
+  "type": "module",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -30,9 +31,9 @@
     "nodemon": "^2.0.4"
   },
   "scripts": {
-    "start": "nodemon --watch backend --exec babel-node backend/server.js",
+    "start": "nodemon --watch backend --exec  node backend/server.js",
     "build": "rm -rf dest && babel backend -d dest",
-    "heroku-postbuild": "npm run build && cd frontend && npm install && npm run build"
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
   },
   "repository": {
     "type": "git",

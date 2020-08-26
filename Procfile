@@ -1,1 +1,1 @@
-web: node dest/server.js
+web: node backend/server.js

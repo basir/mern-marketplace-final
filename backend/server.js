@@ -2,11 +2,11 @@ import express from 'express';
 import path from 'path';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import config from './config';
-import userRouter from './routers/userRouter';
-import productRouter from './routers/productRouter';
-import orderRouter from './routers/orderRouter';
-import uploadRouter from './routers/uploadRouter';
+import config from './config.js';
+import userRouter from './routers/userRouter.js';
+import productRouter from './routers/productRouter.js';
+import orderRouter from './routers/orderRouter.js';
+import uploadRouter from './routers/uploadRouter.js';
 
 const mongodbUrl = config.MONGODB_URL;
 mongoose
@@ -27,10 +27,11 @@ app.use('/api/orders', orderRouter);
 app.get('/api/config/paypal', (req, res) => {
   res.send(config.PAYPAL_CLIENT_ID);
 });
-app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
-app.use(express.static(path.join(__dirname, '/../frontend/build')));
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+app.use(express.static(path.join(__dirname, '/frontend/build')));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(`${__dirname}/../frontend/build/index.html`));
+  res.sendFile(path.join(`${__dirname}/frontend/build/index.html`));
 });
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
