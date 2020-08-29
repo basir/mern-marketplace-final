@@ -62,7 +62,6 @@ This course is for non-coders or juniors who want to be a professional web devel
        1. manage users
 
 # Table of content
-
 1. Create React Bootstrap App
    1. create mern-marketplace folder
    2. npx create-react-app frontend
@@ -157,39 +156,31 @@ This course is for non-coders or juniors who want to be a professional web devel
     1. create product details constants, actions and reducers
     2. add reducer to store.js
     3. use action in ProductScreen.js
-    4. handle Add To Cart button
-12. Add To Cart Action
-    1. create CartScreen.js
-    2. create addToCart constants, actions and reducers
-    3. add reducer to store.js
-    4. use action in ProductScreen.js
-    5. render cartItems.length
-13. Cart Screen UI
-    1. cartItems = getCartItems()
+    4. add /api/product/:id to backend api
+12. Handle Add To Cart Button
+    1. Handle Add To Cart in ProductScreen.js
+    2. create CartScreen.js
+13. Implement Add to Cart Action
+    1. create addToCart constants, actions and reducers
+    2. add reducer to store.js
+    3. use action in CartScreen.js
+    4. render cartItems.length
+14. Design Cart Screen
     2. create 2 columns for cart items and cart action
     3. cartItems.length === 0 ? cart is empty
     4. show item image, name, qty and price
     5. cart action
     6. Subtotal
     7. Proceed to Checkout button
-    8. Add CSS Style
-14. Update and Delete Cart Items
-    1. add qty select next to each item
-    2. after_render()
-    3. add change event to qty select
-    4. getCartItems() and pass to addToCart()
-    5. set force to true to addToCart()
-    6. create rerender() as (component, areaName = 'content')
-    7. component.render and component.after_render
-    8. if force is true then rerender()
-    9. add delete button next to each item
-    10. add click event to qty button
-    11. call removeFromCart(deleteButton.id)
-    12. implement removeFromCart(id)
-    13. setCartItems( getCartItems().filter)
-    14. if id === parseRequestUrl().id? redirect to '/cart'
-    15. else rerender(CartScreen);
-15. Connect To MongoDB and Create Admin User
+15. Implement Remove From Cart Action
+    1. create removeFromCart constants, actions and reducers
+    2. add reducer to store.js
+    3. use action in CartScreen.js
+16. Switch From Babel To Native Node
+    1. Update node
+    2. Update package.json
+    3. Add .js to imports
+17. Insert Sample Data in MongoDB
     1. npm install mongoose
     2. connect to mongodb
     3. create config.js
@@ -197,58 +188,29 @@ This course is for non-coders or juniors who want to be a professional web devel
     5. export MONGODB_URL
     6. create models/userModel.js
     7. create userSchema and userModel
-    8. create userRoute
-    9. create createadmin route
-16. Sign-in Screen UI
+    8. create models/productModel.js
+    9. create productSchema and productModel
+    10. create userRoute
+    11. Seed sample data
+18. Create Sign-in Backend
+    1. create API for /api/users/signin
+    2. create isAuth middleware
+19. Design SignIn Screen
     1. create SigninScreen
     2. render email and password fields
-    3. style signin form
-17. Sign-in Screen Backend
-    1. create signin api in backend
-    2. create route for /api/users/signin
-    3. create check user name and password
-    4. if it is not ok the return 401 error
-    5. install express-async-handler
-    6. wrap it in expressAsyncHandler
-    7. add error middleware in server.js
-    8. install Postman
-    9. send post request
-    10. test with invalid user password
-    11. otherwise generate token
-    12. install jsonwebtoken
-    13. set config.JWT_SECRET to somethingsecret
-    14. add generateToken to utils.js
-    15. return token
-    16. test with correct user and password
-18. Sign-in Screen Action
-    1. after_render handle form submit
-    2. create signin request in frontend
-    3. show alert if email or password is incorrect
-    4. Add getUserInfo and setUserInfo to localStorage
-    5. create Header component
-    6. if userInfo.email exist show user name otherwise show signin
-19. Create Progress Indicator and Alert Component
-    1. create overlay loading div in index.html
-    2. Style overlay loading
-    3. create showLoading() function
-    4. set loading-overlay classList add active
-    5. create hideLoading() function
-    6. create overlay message div in index.html
-    7. add style overlay message
-    8. create showMessage(message, callback)
-    9. document message-overlay set inner HTML
-    10. div > div id message-overlay-content
-    11. show message
-    12. button id message-overlay-close-button OK
-    13. add class active to it
-    14. add event listener for button to call callback
-20. Register Screen
+    3. create signin constants, actions and reducers
+    4. Update Header based on user login
+20. Implement SignIn Action
+    1. create signin constants, actions and reducers
+    2. add reducer to store.js
+    3. use action in SigninScreen.js
+21. Register Screen
     1. create RegisterScreen.js
     2. add form elements
     3. after_render handle form submit
     4. create register request in frontend
     5. create register api in backend
-21. User Profile Screen
+22. User Profile Screen
     1. create ProfileScreen.js
     2. add form elements
     3. after_render handle form submit
@@ -256,7 +218,7 @@ This course is for non-coders or juniors who want to be a professional web devel
     5. create profile update api in backend
     6. create isAuth in utils.js and use in update profile
     7. implement sign out
-22. Checkout Wizard
+23. Checkout Wizard
     1. create CheckoutSteps.js
     2. create div elements for step 1 to 4
     3. create redirectUser() in utils.js
@@ -266,19 +228,19 @@ This course is for non-coders or juniors who want to be a professional web devel
     7. copy shipping screen and as payment screen
     8. define getPayment and setPayment
     9. redirect user to PlaceOrder.js
-23. PlaceOrder Screen UI
+24. PlaceOrder Screen UI
     1. create PlaceOrder.js
     2. style elements
-24. PlaceOrder Screen Action
+25. PlaceOrder Screen Action
     1. handle place order button click
     2. createOrder api
     3. create orderModel
     4. create orderRouter
     5. create post order route
-25. Order Screen
+26. Order Screen
     1. create OrderScreen.js
     2. style elements
-26. PayPal Payment
+27. PayPal Payment
     1. get client id from paypal
     2. set it in .env file
     3. create route form /api/paypal/clientId
@@ -289,37 +251,37 @@ This course is for non-coders or juniors who want to be a professional web devel
     8. create payOrder in api.js
     9. create route for /:id/pay in orderRouter.js
     10. rerender after pay order
-27. Display Orders History
+28. Display Orders History
     1. create customer orders api
     2. create api for getMyOrders
     3. show orders in profile screen
     4. style orders
-28. Admin Dashboard UI
+29. Admin Dashboard UI
     1. Header.js
     2. if user is admin show Dashboard
     3. create DashboardScreen
     4. create DashboardMenu
     5. Style dashboard
-29. Admin Products UI
+30. Admin Products UI
     1. create ProductListScreen.js
     2. show products with edit and delete button
     3. show create product button
-30. Create Product
+31. Create Product
     1. create product model
     2. implement create product route
     3. create product function in api.js
     4. call create product function in ProductListScreen
     5. redirect to edit product
-31. Edit Product UI
+32. Edit Product UI
     1. create ProductEditScreen.js
     2. load product data from backend
     3. handle form submit
     4. save product in backend
-32. Edit Product Backend
+33. Edit Product Backend
     1. handle form submit
     2. create updateProduct
     3. save product in backend
-33. Upload Product Image
+34. Upload Product Image
     1. npm install multer
     2. create routes/uploadRoute.js
     3. import express and multer
@@ -336,41 +298,41 @@ This course is for non-coders or juniors who want to be a professional web devel
     14. call uploadProductImage()
     15. create uploadProductImage in api.js
     16. update server.js
-34. Build Project
+35. Build Project
     1. create build script for frontend
     2. create build script for backend
     3. update sever.js to serve frontend build folder and uploads folder
     4. stop running frontend
     5. npm run build
     6. check localhost:5000 for running website and showing images
-35. Delete Product
+36. Delete Product
     1. update ProductListScreen.js
     2. handle delete button
     3. rerender after deletion
-36. Admin Orders
+37. Admin Orders
     1. create Admin Order menu in header
     2. create AdminOrder.js
     3. load orders from backend
     4. list them in the screen
     5. show delete and edit button
     6. redirect to order details on edit action
-37. Deliver Order
+38. Deliver Order
     1. if order is payed show deliver button for admin
     2. handle click on deliver button
     3. set state to delivered
-38. Show Summary Report in Dashboard
+39. Show Summary Report in Dashboard
     1. create summary section
     2. style summary
     3. create summary backend
     4. create getSummary in api.js
     5. load data in dashboard screen
     6. show 3 boxes for Users, Orders and Sales
-39. Show Chart in Dashboard
+40. Show Chart in Dashboard
     1. import chartist
     2. add chartist css to index.html
     3. create linear chart for daily sales
     4. create pie chart for product categories
-40. Publish heroku
+41. Publish heroku
     1. Create git repository
     2. Create heroku account
     3. install Heroku CLI
@@ -390,13 +352,13 @@ This course is for non-coders or juniors who want to be a professional web devel
     17. create connection string based on db name and user and password
     18. Set Cloud MongoDB connection in heroku env variables
     19. Commit and push
-41. Product Search Bar
+42. Product Search Bar
     1. create search bar in Header.js
     2. add style
     3. handle submit form
     4. edit parse url to get query string
     5. update product list api for search keyword
-42. Show Categories In Sidebar Menu
+43. Show Categories In Sidebar Menu
     1. create aside-open-button in Header.js
     2. add event to open aside
     3. create Aside.js component
