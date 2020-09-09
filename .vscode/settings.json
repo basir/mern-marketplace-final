@@ -3,5 +3,6 @@
   "editor.lineNumbers": "off",
   "editor.glyphMargin": false,
   "editor.folding": false,
-  "editor.wordWrap": "bounded"
+  "editor.wordWrap": "bounded",
+  "window.zoomLevel": 4
 }

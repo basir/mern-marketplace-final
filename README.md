@@ -1,6 +1,6 @@
 # MERN Marketplace
 
-Hello and Welcome to my coding course to build a multi-vendor ecommerce website by MERN stack. In this course you will learn the essential tools and skills to design, develop and deploy a fully-function marketplace website using React and Redux in frontend and Node and MongoDB in backend.
+Hello and Welcome to my coding course to build a multi-vendor ecommerce website by MERN stack. In this course you will learn the essential tools and skills to design, develop and deploy a fully-function marketplace website using React and Redux in frontend and Node and MongoDB in backend..
 
 ## What You Will Learn
 
@@ -62,6 +62,7 @@ This course is for non-coders or juniors who want to be a professional web devel
        1. manage users
 
 # Table of content
+
 1. Create React Bootstrap App
    1. create mern-marketplace folder
    2. npx create-react-app frontend
@@ -165,13 +166,7 @@ This course is for non-coders or juniors who want to be a professional web devel
     2. add reducer to store.js
     3. use action in CartScreen.js
     4. render cartItems.length
-14. Design Cart Screen
-    2. create 2 columns for cart items and cart action
-    3. cartItems.length === 0 ? cart is empty
-    4. show item image, name, qty and price
-    5. cart action
-    6. Subtotal
-    7. Proceed to Checkout button
+14. Design Cart Screen 2. create 2 columns for cart items and cart action 3. cartItems.length === 0 ? cart is empty 4. show item image, name, qty and price 5. cart action 6. Subtotal 7. Proceed to Checkout button
 15. Implement Remove From Cart Action
     1. create removeFromCart constants, actions and reducers
     2. add reducer to store.js
@@ -204,84 +199,113 @@ This course is for non-coders or juniors who want to be a professional web devel
     1. create signin constants, actions and reducers
     2. add reducer to store.js
     3. use action in SigninScreen.js
-21. Register Screen
-    1. create RegisterScreen.js
-    2. add form elements
-    3. after_render handle form submit
-    4. create register request in frontend
-    5. create register api in backend
-22. User Profile Screen
-    1. create ProfileScreen.js
-    2. add form elements
-    3. after_render handle form submit
-    4. create profile update request in frontend
-    5. create profile update api in backend
-    6. create isAuth in utils.js and use in update profile
-    7. implement sign out
-23. Checkout Wizard
+21. Create Register Backend and Design UI
+    1. create API for /api/users/register
+    2. insert new user to database
+    3. return user info and token
+    4. create RegisterScreen
+    5. Add fields
+    6. Style fields
+    7. Add screen to App.js
+22. Implement Register Action
+    1. create register constants, actions and reducers
+    2. add reducer to store.js
+    3. use action in RegisterScreen.js
+23. Create Profile Backend and Screen
+    1. create profile update api in backend
+    2. create isAuth in utils.js and use in update profile
+    3. create ProfileScreen.js
+    4. add form elements
+24. Implement Profile Action
+    1. create user details constants, actions and reducers
+    2. add reducer to store.js
+    3. use action in ProfileScreen.js
+    4. create update profile constants, actions and reducers
+    5. add reducer to store.js
+    6. use action in ProfileScreen.js
+25. Design Checkout Wizard Screen
     1. create CheckoutSteps.js
     2. create div elements for step 1 to 4
-    3. create redirectUser() in utils.js
-    4. copy profile screen and as shipping screen
-    5. use CheckoutStep
-    6. define getShipping and setShipping
-    7. copy shipping screen and as payment screen
-    8. define getPayment and setPayment
-    9. redirect user to PlaceOrder.js
-24. PlaceOrder Screen UI
-    1. create PlaceOrder.js
-    2. style elements
-25. PlaceOrder Screen Action
+    3. handle redirect in signin and register
+    4. create shipping screen
+26. Implement Checkout Wizard Action
+    1. saveShippingAddress constant, reducer and actions
+    2. copy shipping screen and as payment screen
+    3. define getPayment and setPayment
+    4. redirect user to PlaceOrder.js
+27. Create Place Order API
+    1. createOrder api
+    2. create orderModel
+    3. create orderRouter
+    4. create post order route
+28. Design PlaceOrder Screen
+    1. create CartScreen.js
+    2. Add checkout wizard
+    3. Add shipping, payment and items preview
+    4. Add Place Order button
+29. Implement PlaceOrder Action
     1. handle place order button click
-    2. createOrder api
-    3. create orderModel
-    4. create orderRouter
-    5. create post order route
-26. Order Screen
-    1. create OrderScreen.js
-    2. style elements
-27. PayPal Payment
+    2. create place order constants, action and reducer
+30. Create Order Screen
+    1. build order api for /api/orders/:id
+    2. create OrderScreen.js
+    3. dispatch order details action in useEffect
+    4. load data with useSelector
+    5. show data like place order screen
+    6. create order details constant, action and reducer
+31. Add PayPal Button
     1. get client id from paypal
     2. set it in .env file
     3. create route form /api/paypal/clientId
     4. create getPaypalClientID in api.js
     5. add paypal checkout script in OrderScreen.js
     6. show paypal button
-    7. update order after payment
-    8. create payOrder in api.js
-    9. create route for /:id/pay in orderRouter.js
-    10. rerender after pay order
-28. Display Orders History
+32. Implement Order Payment
+    1. update order after payment
+    2. create payOrder in api.js
+    3. create route for /:id/pay in orderRouter.js
+    4. rerender after pay order
+33. Display Orders History
     1. create customer orders api
     2. create api for getMyOrders
     3. show orders in profile screen
     4. style orders
-29. Admin Dashboard UI
-    1. Header.js
-    2. if user is admin show Dashboard
-    3. create DashboardScreen
-    4. create DashboardMenu
-    5. Style dashboard
-30. Admin Products UI
+34. List Users
+    1. build api for list users
+    2. Create UserList Screen
+    3. create order details constant, action and reducer
+35. Delete Users
+    1. build api for delete users
+    2. create order details constant, action and reducer
+    3. Use action in UserListScreen
+36. Edit User API and Screen
+    1. build api for details and update users
+    2. create edit screen UI
+37. Edit User Action
+    1. define user details constant, action and reducer
+    2. show user info in edit screen
+    3. define user update constant, action and reducer
+    4. update user info in edit screen
+38. Admin Products UI
     1. create ProductListScreen.js
     2. show products with edit and delete button
     3. show create product button
-31. Create Product
+39. Create Product
     1. create product model
     2. implement create product route
     3. create product function in api.js
     4. call create product function in ProductListScreen
     5. redirect to edit product
-32. Edit Product UI
+40. Edit Product UI
     1. create ProductEditScreen.js
     2. load product data from backend
     3. handle form submit
     4. save product in backend
-33. Edit Product Backend
+41. Edit Product Backend
     1. handle form submit
     2. create updateProduct
     3. save product in backend
-34. Upload Product Image
+42. Upload Product Image
     1. npm install multer
     2. create routes/uploadRoute.js
     3. import express and multer
@@ -298,41 +322,41 @@ This course is for non-coders or juniors who want to be a professional web devel
     14. call uploadProductImage()
     15. create uploadProductImage in api.js
     16. update server.js
-35. Build Project
+43. Build Project
     1. create build script for frontend
     2. create build script for backend
     3. update sever.js to serve frontend build folder and uploads folder
     4. stop running frontend
     5. npm run build
     6. check localhost:5000 for running website and showing images
-36. Delete Product
+44. Delete Product
     1. update ProductListScreen.js
     2. handle delete button
     3. rerender after deletion
-37. Admin Orders
+45. Admin Orders
     1. create Admin Order menu in header
     2. create AdminOrder.js
     3. load orders from backend
     4. list them in the screen
     5. show delete and edit button
     6. redirect to order details on edit action
-38. Deliver Order
+46. Deliver Order
     1. if order is payed show deliver button for admin
     2. handle click on deliver button
     3. set state to delivered
-39. Show Summary Report in Dashboard
+47. Show Summary Report in Dashboard
     1. create summary section
     2. style summary
     3. create summary backend
     4. create getSummary in api.js
     5. load data in dashboard screen
     6. show 3 boxes for Users, Orders and Sales
-40. Show Chart in Dashboard
+48. Show Chart in Dashboard
     1. import chartist
     2. add chartist css to index.html
     3. create linear chart for daily sales
     4. create pie chart for product categories
-41. Publish heroku
+49. Publish heroku
     1. Create git repository
     2. Create heroku account
     3. install Heroku CLI
@@ -352,13 +376,13 @@ This course is for non-coders or juniors who want to be a professional web devel
     17. create connection string based on db name and user and password
     18. Set Cloud MongoDB connection in heroku env variables
     19. Commit and push
-42. Product Search Bar
+50. Product Search Bar
     1. create search bar in Header.js
     2. add style
     3. handle submit form
     4. edit parse url to get query string
     5. update product list api for search keyword
-43. Show Categories In Sidebar Menu
+51. Show Categories In Sidebar Menu
     1. create aside-open-button in Header.js
     2. add event to open aside
     3. create Aside.js component

@@ -76,7 +76,7 @@ function UserEditScreen(props) {
             />
           </Form.Group>
           <Form.Group controlId="email">
-            <Form.Label>Price</Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
               placeholder="Enter email"

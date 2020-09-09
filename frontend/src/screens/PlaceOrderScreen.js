@@ -121,7 +121,7 @@ function PlaceOrderScreen(props) {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>ShippingAddress</Col>
+                  <Col>Shipping</Col>
                   <Col>${shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
